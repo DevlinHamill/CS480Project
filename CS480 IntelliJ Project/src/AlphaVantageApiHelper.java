@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -55,8 +56,8 @@ public class AlphaVantageApiHelper {
         return getJSON(request);
     }
 
-    public static JSONObject getDailyJSON(String symbol, String interval, boolean compact) {
-        String request = baseUrl + "function=TIME_SERIES_DAILY" + "&symbol=" + symbol + "&interval=" + interval + "&compact=" + (compact? "compact" : "full") + "&apikey=" + apiKey;
+    public static JSONObject getDailyJSON(String symbol, boolean compact) {
+        String request = baseUrl + "function=TIME_SERIES_DAILY" + "&symbol=" + symbol + "&outputsize=" + (compact? "compact" : "full") + "&apikey=" + apiKey;
         return getJSON(request);
     }
 
@@ -97,14 +98,51 @@ public class AlphaVantageApiHelper {
             connection.disconnect(); // Close the connection
 
         } catch (Exception e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
 
         return jsonResponse;
     }
 
+    public static HashMap<String, String> getHomeScreenData (String symbol) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put(Constants.STOCK_SYMBOL, symbol);
+
+        //get most recent stock price using interday
+        JSONObject intraday = getIntradayJSON(symbol, "1min");
+        String mostRecentIntradayStockPrice = intraday
+                .getJSONObject("Time Series (1min)")
+                .getJSONObject(getMetadataJSON(intraday)
+                        .getString("3. Last Refreshed"))
+                .getString("4. close");
+
+        //store most recent stock price in data
+        data.put(Constants.CURRENT_VALUE, mostRecentIntradayStockPrice);
+
+        //get previous close price using daily
+        JSONObject daily = getDailyJSON(symbol, true);
+        String prevCloseStockPrice = daily
+                .getJSONObject("Time Series (Daily)")
+                .getJSONObject(getMetadataJSON(daily)
+                        .getString("3. Last Refreshed"))
+                .getString("4. close");
+
+        //store previous close price in data
+        data.put(Constants.PREVIOUS_CLOSE, prevCloseStockPrice);
+
+        double prevCloseValue = Double.parseDouble(prevCloseStockPrice);
+        double change = prevCloseValue - Double.parseDouble(mostRecentIntradayStockPrice);
+
+        data.put(Constants.CHANGE_SINCE_PREVIOUS_CLOSE, (change >= 0.0 ? "+" : "") + String.format("%.2f", change));
+        data.put(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE, (change >= 0.0 ? "+" : "") + String.format("%.2f", 100 * (change / prevCloseValue)) + "%");
+
+        return data;
+    }
+
     public static void runApiTest() {
-        JSONObject jsonResponse = getIntradayJSON("IBM", "5min");
+        System.out.println("test getIntradayJSON(\"IBM\", \"1min\"):");
+        JSONObject jsonResponse = getIntradayJSON("IBM", "1min");
 
         //print the first layer JSONObject keys, if there is an error print the error message
         System.out.println("Level 1 Keys:");
@@ -126,11 +164,42 @@ public class AlphaVantageApiHelper {
             }
         }
 
+        System.out.println("test getDailyJSON(\"IBM\", true):");
+        jsonResponse = getDailyJSON("IBM", true);
+
+        //print the first layer JSONObject keys, if there is an error print the error message
+        System.out.println("Level 1 Keys:");
+        for (String key : jsonResponse.keySet()) {
+            if(key.equals("Error Message")) {
+                System.out.println("Error Message: " + jsonResponse.get("Error Message"));
+            }
+            else {
+                System.out.println(key);
+            }
+        }
+
+        //print the second layer JSONObject keys and their values
+        System.out.println("\nLevel 2 Keys:");
+        for(String key : jsonResponse.keySet()) {
+            System.out.println("\n" + key + " Keys and values:");
+            for (String key2 : jsonResponse.getJSONObject(key).keySet()) {
+                System.out.println(key2 + ": " + jsonResponse.getJSONObject(key).get(key2));
+            }
+        }
+
+        System.out.println("test stockExists(\"IBM\"):");
         Scanner keyboard = new Scanner(System.in);
         System.out.print("\nEnter a stock symbol to check: ");
         String symbol = keyboard.next();
         System.out.println(symbol + " found: " + stockExists(symbol));
 
-        //System.out.println(getMetadataJSON(jsonResponse).toString());
+        if(stockExists(symbol)) {
+            System.out.println("test getHomeScreenData(\"" + symbol + "\"):");
+            HashMap<String, String> homeScreenData = getHomeScreenData(symbol);
+
+            for(String key : homeScreenData.keySet()) {
+                System.out.println("Key: " + key + ", Data: " + homeScreenData.get(key));
+            }
+        }
     }
 }
