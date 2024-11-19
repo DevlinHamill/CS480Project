@@ -108,29 +108,33 @@ public class AlphaVantageApiHelper {
         HashMap<String, String> data = new HashMap<>();
         data.put(Constants.STOCK_SYMBOL, symbol);
 
+        //get most recent stock price using interday
         JSONObject intraday = getIntradayJSON(symbol, "1min");
-        JSONObject intradayData = intraday.getJSONObject("Time Series (1min)");
-        JSONObject intradayMetadata = getMetadataJSON(intraday);
-        JSONObject intradayMostRecentData = intradayData.getJSONObject(intradayMetadata.getString("3. Last Refreshed"));
-        String mostRecentIntradayStockPrice = intradayMostRecentData.getString("4. close");
+        String mostRecentIntradayStockPrice = intraday
+                .getJSONObject("Time Series (1min)")
+                .getJSONObject(getMetadataJSON(intraday)
+                        .getString("3. Last Refreshed"))
+                .getString("4. close");
 
+        //store most recent stock price in data
         data.put(Constants.CURRENT_VALUE, mostRecentIntradayStockPrice);
 
+        //get previous close price using daily
         JSONObject daily = getDailyJSON(symbol, true);
-        JSONObject dailyData = daily.getJSONObject("Time Series (Daily)");
-        JSONObject dailyMetadata = getMetadataJSON(daily);
-        JSONObject dailyMostRecentData = dailyData.getJSONObject(dailyMetadata.getString("3. Last Refreshed"));
-        String prevCloseStockPrice = dailyMostRecentData.getString("4. close");
+        String prevCloseStockPrice = daily
+                .getJSONObject("Time Series (Daily)")
+                .getJSONObject(getMetadataJSON(daily)
+                        .getString("3. Last Refreshed"))
+                .getString("4. close");
 
+        //store previous close price in data
         data.put(Constants.PREVIOUS_CLOSE, prevCloseStockPrice);
 
-        double currentValue = Double.parseDouble(mostRecentIntradayStockPrice);
         double prevCloseValue = Double.parseDouble(prevCloseStockPrice);
-        double change = prevCloseValue - currentValue;
-        double changePercentage = 100 * (change / prevCloseValue);
+        double change = prevCloseValue - Double.parseDouble(mostRecentIntradayStockPrice);
 
         data.put(Constants.CHANGE_SINCE_PREVIOUS_CLOSE, (change >= 0.0 ? "+" : "") + String.format("%.2f", change));
-        data.put(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE, (change >= 0.0 ? "+" : "") + String.format("%.2f", changePercentage) + "%");
+        data.put(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE, (change >= 0.0 ? "+" : "") + String.format("%.2f", 100 * (change / prevCloseValue)) + "%");
 
         return data;
     }
