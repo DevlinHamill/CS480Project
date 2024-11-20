@@ -26,41 +26,6 @@ public class AlphaVantageApiHelper {
         runApiTest();
     }
 
-    public static JSONObject getMetadataJSON(JSONObject rootJSON) {
-        return rootJSON.getJSONObject("Meta Data");
-    }
-
-    public static boolean stockExists(String keyword) {
-        boolean found = false;
-        String request = baseUrl + "function=SYMBOL_SEARCH" + "&keywords=" + keyword + "&apikey=" + apiKey;
-        JSONObject jsonResponse = getJSON(request);
-
-        System.out.println();
-
-        JSONArray jsonArray = jsonResponse.getJSONArray(jsonResponse.keys().next());
-
-        for(int i = 0; i < jsonArray.length(); i++) {
-            JSONObject temp = jsonArray.getJSONObject(i);
-
-            if(temp.get("1. symbol").toString().equals(keyword)) {
-                found = true;
-                break;
-            }
-        }
-
-        return found;
-    }
-
-    public static JSONObject getIntradayJSON(String symbol, String interval) {
-        String request = baseUrl + "function=TIME_SERIES_INTRADAY" + "&symbol=" + sanitizeStockSymbol(symbol) + "&interval=" + interval + "&apikey=" + apiKey;
-        return getJSON(request);
-    }
-
-    public static JSONObject getDailyJSON(String symbol, boolean compact) {
-        String request = baseUrl + "function=TIME_SERIES_DAILY" + "&symbol=" + sanitizeStockSymbol(symbol) + "&outputsize=" + (compact? "compact" : "full") + "&apikey=" + apiKey;
-        return getJSON(request);
-    }
-
     public static JSONObject getJSON(String urlString) {
         JSONObject jsonResponse = null;
 
@@ -105,6 +70,20 @@ public class AlphaVantageApiHelper {
         return jsonResponse;
     }
 
+    public static JSONObject getMetadataJSON(JSONObject rootJSON) {
+        return rootJSON.getJSONObject("Meta Data");
+    }
+
+    public static JSONObject getIntradayJSON(String symbol, String interval) {
+        String request = baseUrl + "function=TIME_SERIES_INTRADAY" + "&symbol=" + sanitizeStockSymbol(symbol) + "&interval=" + interval + "&apikey=" + apiKey;
+        return getJSON(request);
+    }
+
+    public static JSONObject getDailyJSON(String symbol, boolean compact) {
+        String request = baseUrl + "function=TIME_SERIES_DAILY" + "&symbol=" + sanitizeStockSymbol(symbol) + "&outputsize=" + (compact? "compact" : "full") + "&apikey=" + apiKey;
+        return getJSON(request);
+    }
+
     public static String sanitizeStockSymbol(String input) {
         String returnString = "";
 
@@ -112,6 +91,28 @@ public class AlphaVantageApiHelper {
             returnString = input.replaceAll("[^A-Z\\.]", "");
         }
         return returnString;
+    }
+
+    public static boolean stockExists(String keyword) {
+        boolean found = false;
+        String request = baseUrl + "function=SYMBOL_SEARCH" + "&keywords=" + keyword + "&apikey=" + apiKey;
+
+        //make sure the stock symbol is in the valid format before seeing if it's in the database
+        if(keyword.equals(sanitizeStockSymbol(keyword))) {
+            JSONObject jsonResponse = getJSON(request);
+            JSONArray jsonArray = jsonResponse.getJSONArray(jsonResponse.keys().next());
+
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject temp = jsonArray.getJSONObject(i);
+
+                if(temp.get("1. symbol").toString().equals(keyword)) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        return found;
     }
 
     public static HashMap<String, String> getHomeScreenData (String symbol) {
@@ -129,6 +130,8 @@ public class AlphaVantageApiHelper {
         //store most recent stock price in data
         data.put(Constants.CURRENT_VALUE, mostRecentIntradayStockPrice);
 
+        //TODO: add logic to pull from previous days data instead of today's data if time is after 4pm EST
+
         //get previous close price using daily
         JSONObject daily = getDailyJSON(symbol, true);
         String prevCloseStockPrice = daily
@@ -141,7 +144,7 @@ public class AlphaVantageApiHelper {
         data.put(Constants.PREVIOUS_CLOSE, prevCloseStockPrice);
 
         double prevCloseValue = Double.parseDouble(prevCloseStockPrice);
-        double change = prevCloseValue - Double.parseDouble(mostRecentIntradayStockPrice);
+        double change = Double.parseDouble(mostRecentIntradayStockPrice)- prevCloseValue;
 
         data.put(Constants.CHANGE_SINCE_PREVIOUS_CLOSE, (change >= 0.0 ? "+" : "") + String.format("%.2f", change));
         data.put(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE, (change >= 0.0 ? "+" : "") + String.format("%.2f", 100 * (change / prevCloseValue)) + "%");
