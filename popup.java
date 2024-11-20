@@ -93,6 +93,12 @@ public class popup extends JFrame{
 				if(home != null) {
 					if(buttonnum == 1) {
 						home.stockviewbutton1.setText(textField.getText());
+												
+						System.out.println(textField.getText());
+						System.out.println(AlphaVantageApiHelper.stockExists(textField.getText()));
+						//System.out.println(AlphaVantageApiHelper.getIntradayJSON(textField.getText(), false));
+						
+						
 						
 						if(isadding == true) {
 							home.addbutton1.setVisible(false);
