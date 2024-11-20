@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.time.*;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,10 +15,10 @@ public class AlphaVantageApiHelper {
     private static final String baseUrl = "https://www.alphavantage.co/query?";
 
     //intraday example
-    //https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo
+    //https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=H7WKQIGFRDPFG4A5
 
     //daily example
-    //https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo
+    //https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=H7WKQIGFRDPFG4A5
 
     //Ticker search
     //https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=demo
@@ -131,6 +132,9 @@ public class AlphaVantageApiHelper {
         data.put(Constants.CURRENT_VALUE, mostRecentIntradayStockPrice);
 
         //TODO: add logic to pull from previous days data instead of today's data if time is after 4pm EST
+        //better idea, if last refreshed == todays date, get yd date instead
+
+        //TODO: just use daily for getting data, it seems to be updated more often than intraday
 
         //get previous close price using daily
         JSONObject daily = getDailyJSON(symbol, true);
