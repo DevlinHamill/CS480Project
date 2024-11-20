@@ -52,12 +52,12 @@ public class AlphaVantageApiHelper {
     }
 
     public static JSONObject getIntradayJSON(String symbol, String interval) {
-        String request = baseUrl + "function=TIME_SERIES_INTRADAY" + "&symbol=" + symbol + "&interval=" + interval + "&apikey=" + apiKey;
+        String request = baseUrl + "function=TIME_SERIES_INTRADAY" + "&symbol=" + sanitizeStockSymbol(symbol) + "&interval=" + interval + "&apikey=" + apiKey;
         return getJSON(request);
     }
 
     public static JSONObject getDailyJSON(String symbol, boolean compact) {
-        String request = baseUrl + "function=TIME_SERIES_DAILY" + "&symbol=" + symbol + "&outputsize=" + (compact? "compact" : "full") + "&apikey=" + apiKey;
+        String request = baseUrl + "function=TIME_SERIES_DAILY" + "&symbol=" + sanitizeStockSymbol(symbol) + "&outputsize=" + (compact? "compact" : "full") + "&apikey=" + apiKey;
         return getJSON(request);
     }
 
@@ -103,6 +103,15 @@ public class AlphaVantageApiHelper {
         }
 
         return jsonResponse;
+    }
+
+    public static String sanitizeStockSymbol(String input) {
+        String returnString = "";
+
+        if (input != null) {
+            returnString = input.replaceAll("[^A-Z\\.]", "");
+        }
+        return returnString;
     }
 
     public static HashMap<String, String> getHomeScreenData (String symbol) {
