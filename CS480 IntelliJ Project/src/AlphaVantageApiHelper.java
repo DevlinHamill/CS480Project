@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.time.*;
@@ -121,10 +122,11 @@ public class AlphaVantageApiHelper {
         data.put(Constants.STOCK_SYMBOL, symbol);
 
         //get most recent stock price using interday
-        JSONObject intraday = getIntradayJSON(symbol, "1min");
-        String mostRecentIntradayStockPrice = intraday
-                .getJSONObject("Time Series (1min)")
-                .getJSONObject(getMetadataJSON(intraday)
+        JSONObject daily = getDailyJSON(symbol, true);
+        String currentDay = getMetadataJSON(daily).getString("3. Last Refreshed");
+        String mostRecentIntradayStockPrice = daily
+                .getJSONObject("Time Series (Daily)")
+                .getJSONObject(getMetadataJSON(daily)
                         .getString("3. Last Refreshed"))
                 .getString("4. close");
 
@@ -134,10 +136,11 @@ public class AlphaVantageApiHelper {
         //TODO: add logic to pull from previous days data instead of today's data if time is after 4pm EST
         //better idea, if last refreshed == todays date, get yd date instead
 
-        //TODO: just use daily for getting data, it seems to be updated more often than intraday
-
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Integer.parseInt(currentDay.substring(0, 4)), Integer.parseInt(currentDay.substring(5, 7)) - 1, Integer.parseInt(currentDay.substring(8, 10)));
+        calendar.add(Calendar.DATE, -1);
+        
         //get previous close price using daily
-        JSONObject daily = getDailyJSON(symbol, true);
         String prevCloseStockPrice = daily
                 .getJSONObject("Time Series (Daily)")
                 .getJSONObject(getMetadataJSON(daily)
