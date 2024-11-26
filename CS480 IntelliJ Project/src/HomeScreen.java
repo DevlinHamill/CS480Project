@@ -1,15 +1,21 @@
+package test;
+
 import java.awt.EventQueue;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import javax.swing.JFrame;
+import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingUtilities;
+import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -63,7 +69,7 @@ public class HomeScreen {
 		JPanel panel = new JPanel();
 		
 		JPanel panel_1 = new JPanel();
-		Image addimage = new ImageIcon(this.getClass().getResource("/Resource/img.zip/addimage_2.png")).getImage();
+		Image addimage = new ImageIcon(this.getClass().getResource("/addimage_2.png")).getImage();
 	
 		
 				
@@ -568,7 +574,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton6.setVisible(false);
+		
 		panel_1.add(stockviewbutton6);
 		stockviewbutton7 = new JButton("         New button");
 		stockviewbutton7.setHorizontalAlignment(SwingConstants.LEFT);
@@ -579,7 +585,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton7.setVisible(false);
+		
 		panel_1.add(stockviewbutton7);
 		stockviewbutton8 = new JButton("         New button");
 		stockviewbutton8.setHorizontalAlignment(SwingConstants.LEFT);
@@ -590,7 +596,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton8.setVisible(false);
+		
 		panel_1.add(stockviewbutton8);
 		stockviewbutton9 = new JButton("         New button");
 		stockviewbutton9.setHorizontalAlignment(SwingConstants.LEFT);
@@ -601,7 +607,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton9.setVisible(false);
+		
 		panel_1.add(stockviewbutton9);
 		stockviewbutton10 = new JButton("         New button");
 		stockviewbutton10.setHorizontalAlignment(SwingConstants.LEFT);
@@ -612,7 +618,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton10.setVisible(false);
+		
 		panel_1.add(stockviewbutton10);
 		panel.setLayout(null);
 		panel.add(addbutton2);
@@ -634,7 +640,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton1.setVisible(false);
+		
 		panel.add(stockviewbutton1);
 		panel.add(addbutton4);
 		panel.add(removebutton4);
@@ -654,7 +660,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton2.setVisible(false);
+		
 		panel.add(stockviewbutton2);
 		stockviewbutton3 = new JButton("         New button");
 		stockviewbutton3.setHorizontalAlignment(SwingConstants.LEFT);
@@ -665,7 +671,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton3.setVisible(false);
+		
 		panel.add(stockviewbutton3);
 		stockviewbutton4 = new JButton("         New button");
 		stockviewbutton4.setHorizontalAlignment(SwingConstants.LEFT);
@@ -676,7 +682,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton4.setVisible(false);
+		
 		panel.add(stockviewbutton4);
 		stockviewbutton5 = new JButton("         New button");
 		stockviewbutton5.setHorizontalAlignment(SwingConstants.LEFT);
@@ -687,7 +693,7 @@ public class HomeScreen {
 				StockViewPage.main(null);
 			}
 		});
-		stockviewbutton5.setVisible(false);
+		
 		panel.add(stockviewbutton5);
 		frame.getContentPane().setLayout(groupLayout);
 		

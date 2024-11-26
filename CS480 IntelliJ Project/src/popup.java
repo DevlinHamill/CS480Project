@@ -1,6 +1,11 @@
+package test;
+
+import java.awt.Button;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -10,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.awt.Font;
 
 public class popup extends JFrame{
 	
@@ -21,7 +28,7 @@ public class popup extends JFrame{
 	public static int buttonnum;
 	public static boolean isadding;
 	public static popup window;
-	
+	public static JLabel errorLabel;
 	private JFrame frame;
 	
 
@@ -57,6 +64,46 @@ public class popup extends JFrame{
 		initialize();
 	}
 
+	public void UpdateButton(JButton button, String StockSymbol, String Price, String Delta, String DeltaPercentage) {
+		
+		String prompt = String.format("<html><span style='color:black;'>%s %s </span>"+
+				"<span style='color:%s;'>(%s)(%s)</span></html>",
+				StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
+		
+		button.setText(prompt);
+		
+	}
+	
+	public boolean CheckInput(String input) {
+		boolean condition = true;
+		
+		for(int i = 0; i < input.length(); i++) {
+			char currentCharacter = input.charAt(i);
+			
+			if(( Character.isDigit(currentCharacter) ) || ( !Character.isLetterOrDigit(currentCharacter) )) {
+				condition = false; 
+				String errorStr = "Stock symbol\ndoesnt exist!";
+				String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
+				errorLabel.setText(errorDisplay);
+				errorLabel.setVisible(true);
+				return condition;
+			}
+			
+		}
+		
+		if(!AlphaVantageApiHelper.stockExists(input)) {
+			condition = false; 
+			String errorStr = "Stock symbol\ndoesnt exist!";
+			String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
+			errorLabel.setText(errorDisplay);
+			errorLabel.setVisible(true);
+			return condition;
+		}
+		
+		return condition;
+		
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -77,7 +124,9 @@ public class popup extends JFrame{
 		});
 		
 		promptLabel = new JLabel(promptstr);
-		JLabel errorLabel = new JLabel("");
+		errorLabel = new JLabel("");
+		errorLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		
 		
 		textField = new JTextField();
 		textField.setColumns(10);
@@ -87,100 +136,125 @@ public class popup extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(home != null) {
-					if(buttonnum == 1) {
-						home.stockviewbutton1.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton1.setVisible(false);
-							home.editbutton1.setVisible(true);
-							home.removebutton1.setVisible(true);
-							home.stockviewbutton1.setVisible(true);
-						}
-						
-					}else if(buttonnum == 2) {
-						home.stockviewbutton2.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton2.setVisible(false);
-							home.editbutton2.setVisible(true);
-							home.removebutton2.setVisible(true);
-							home.stockviewbutton2.setVisible(true);
-						}
-					}else if(buttonnum == 3) {
-						home.stockviewbutton3.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton3.setVisible(false);
-							home.editbutton3.setVisible(true);
-							home.removebutton3.setVisible(true);
-							home.stockviewbutton3.setVisible(true);
-						}
-					}else if(buttonnum == 4) {
-						home.stockviewbutton4.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton4.setVisible(false);
-							home.editbutton4.setVisible(true);
-							home.removebutton4.setVisible(true);
-							home.stockviewbutton4.setVisible(true);
-						}
-					}else if(buttonnum == 5) {
-						home.stockviewbutton5.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton5.setVisible(false);
-							home.editbutton5.setVisible(true);
-							home.removebutton5.setVisible(true);
-							home.stockviewbutton5.setVisible(true);
-						}
-					}else if(buttonnum == 6) {
-						home.stockviewbutton6.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton6.setVisible(false);
-							home.editbutton6.setVisible(true);
-							home.removebutton6.setVisible(true);
-							home.stockviewbutton6.setVisible(true);
-						}
-					}else if(buttonnum == 7) {
-						home.stockviewbutton7.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton7.setVisible(false);
-							home.editbutton7.setVisible(true);
-							home.removebutton7.setVisible(true);
-							home.stockviewbutton7.setVisible(true);
-						}
-					}else if(buttonnum == 8) {
-						home.stockviewbutton8.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton8.setVisible(false);
-							home.editbutton8.setVisible(true);
-							home.removebutton8.setVisible(true);
-							home.stockviewbutton8.setVisible(true);
-						}
-					}else if(buttonnum == 9) {
-						home.stockviewbutton9.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton9.setVisible(false);
-							home.editbutton9.setVisible(true);
-							home.removebutton9.setVisible(true);
-							home.stockviewbutton9.setVisible(true);
-						}
-					}else if(buttonnum == 10) {
-						home.stockviewbutton10.setText(textField.getText());
-						
-						if(isadding == true) {
-							home.addbutton10.setVisible(false);
-							home.editbutton10.setVisible(true);
-							home.removebutton10.setVisible(true);
-							home.stockviewbutton10.setVisible(true);
-						}
-					}
+					String input = textField.getText().toUpperCase();
 					
-					frame.dispose();
+					if(CheckInput(input)) {
+									
+						HashMap<String, String> currentdata = AlphaVantageApiHelper.getHomeScreenData(input);
+						if(buttonnum == 1) {
+							
+							String Delta = currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE);
+							String DeltaPrec = currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE);
+
+							UpdateButton(home.stockviewbutton1, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							
+							/*
+							 * testing:
+							 * 
+							System.out.println(input);
+							System.out.println(AlphaVantageApiHelper.stockExists(input));
+							
+							System.out.println(Constants.STOCK_SYMBOL+": " + currentdata.get(Constants.STOCK_SYMBOL)+ " "+
+												Constants.PREVIOUS_CLOSE+": " +currentdata.get(Constants.PREVIOUS_CLOSE)+" "+
+												Constants.CURRENT_VALUE.toString()+": " +currentdata.get(Constants.CURRENT_VALUE)+ " "+
+												Constants.CHANGE_SINCE_PREVIOUS_CLOSE+": " +currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE)+" "+
+												Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE+": " +currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							*/
+							if(isadding == true) {
+								home.addbutton1.setVisible(false);
+								home.editbutton1.setVisible(true);
+								home.removebutton1.setVisible(true);
+								home.stockviewbutton1.setVisible(true);
+							}
+							
+						}else if(buttonnum == 2) {
+							
+							UpdateButton(home.stockviewbutton2, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));	
+							if(isadding == true) {
+								home.addbutton2.setVisible(false);
+								home.editbutton2.setVisible(true);
+								home.removebutton2.setVisible(true);
+								home.stockviewbutton2.setVisible(true);
+							}
+						}else if(buttonnum == 3) {
+							UpdateButton(home.stockviewbutton3, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton3.setVisible(false);
+								home.editbutton3.setVisible(true);
+								home.removebutton3.setVisible(true);
+								home.stockviewbutton3.setVisible(true);
+							}
+						}else if(buttonnum == 4) {
+							UpdateButton(home.stockviewbutton4, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton4.setVisible(false);
+								home.editbutton4.setVisible(true);
+								home.removebutton4.setVisible(true);
+								home.stockviewbutton4.setVisible(true);
+							}
+						}else if(buttonnum == 5) {
+							UpdateButton(home.stockviewbutton5, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton5.setVisible(false);
+								home.editbutton5.setVisible(true);
+								home.removebutton5.setVisible(true);
+								home.stockviewbutton5.setVisible(true);
+							}
+						}else if(buttonnum == 6) {
+							
+							UpdateButton(home.stockviewbutton6, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton6.setVisible(false);
+								home.editbutton6.setVisible(true);
+								home.removebutton6.setVisible(true);
+								home.stockviewbutton6.setVisible(true);
+							}
+						}else if(buttonnum == 7) {
+							
+							UpdateButton(home.stockviewbutton7, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton7.setVisible(false);
+								home.editbutton7.setVisible(true);
+								home.removebutton7.setVisible(true);
+								home.stockviewbutton7.setVisible(true);
+							}
+						}else if(buttonnum == 8) {
+							UpdateButton(home.stockviewbutton8, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton8.setVisible(false);
+								home.editbutton8.setVisible(true);
+								home.removebutton8.setVisible(true);
+								home.stockviewbutton8.setVisible(true);
+							}
+						}else if(buttonnum == 9) {
+							UpdateButton(home.stockviewbutton9, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton9.setVisible(false);
+								home.editbutton9.setVisible(true);
+								home.removebutton9.setVisible(true);
+								home.stockviewbutton9.setVisible(true);
+							}
+						}else if(buttonnum == 10) {
+							UpdateButton(home.stockviewbutton10, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							if(isadding == true) {
+								home.addbutton10.setVisible(false);
+								home.editbutton10.setVisible(true);
+								home.removebutton10.setVisible(true);
+								home.stockviewbutton10.setVisible(true);
+							}
+						}
+						
+						frame.dispose();
+					}
 				}
 			}
 		});
@@ -237,4 +311,5 @@ public class popup extends JFrame{
 		panel.setLayout(gl_panel);
 		frame.getContentPane().setLayout(groupLayout);
 	}
+		
 }
