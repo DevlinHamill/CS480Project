@@ -4,6 +4,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.time.*;
@@ -137,8 +138,12 @@ public class AlphaVantageApiHelper {
         //better idea, if last refreshed == todays date, get yd date instead
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Integer.parseInt(currentDay.substring(0, 4)), Integer.parseInt(currentDay.substring(5, 7)) - 1, Integer.parseInt(currentDay.substring(8, 10)));
+        calendar.set(Integer.parseInt(currentDay.substring(0, 4)),
+                Integer.parseInt(currentDay.substring(5, 7)) - 1,
+                Integer.parseInt(currentDay.substring(8, 10)));
         calendar.add(Calendar.DATE, -1);
+
+        System.out.println("yesterdays date: "  + calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH));
         
         //get previous close price using daily
         String prevCloseStockPrice = daily
