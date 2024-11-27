@@ -1,21 +1,15 @@
-package test;
-
 import java.awt.EventQueue;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import javax.swing.JFrame;
-import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingUtilities;
-import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

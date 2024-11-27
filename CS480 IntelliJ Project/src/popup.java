@@ -1,11 +1,6 @@
-package test;
-
-import java.awt.Button;
-import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
