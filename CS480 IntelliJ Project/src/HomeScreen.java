@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+
 import javax.swing.SwingConstants;
 
 public class HomeScreen {
@@ -24,7 +26,7 @@ public class HomeScreen {
 	public static JButton removebutton1, removebutton2, removebutton3, removebutton4, removebutton5, removebutton6, removebutton7, removebutton8, removebutton9, removebutton10;
 
 	public static HomeScreen home;
-	
+	public Stock[] stocklist = new Stock[10];
 	/**
 	 * Launch the application.
 	 */
@@ -49,7 +51,46 @@ public class HomeScreen {
 		initialize();
 	}
 	
+	public void storeStockData(HashMap<String,String> homepage, HashMap<String, String> StockViewpage, int number) {
+		
+		number = number - 1;
+		stocklist[number].Currentstockprice = homepage.get(Constants.CURRENT_VALUE);
+		stocklist[number].Stocksymbol = homepage.get(Constants.STOCK_SYMBOL);
+		stocklist[number].Changefrompreviousclose = homepage.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE);
+		stocklist[number].ChangefrompreviousclosePrecentage = homepage.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE);
+		
+		stocklist[number].StockName = StockViewpage.get(Constants.NAME);
+		stocklist[number].Previous_Close = StockViewpage.get(Constants.PREVIOUS_CLOSE);
+		stocklist[number].Open = StockViewpage.get(Constants.OPEN);
+		stocklist[number].Bid = StockViewpage.get(Constants.BID);
+		stocklist[number].Ask = StockViewpage.get(Constants.ASK);
+		stocklist[number].DaysRange = StockViewpage.get(Constants.DAYSRANGE);
+		stocklist[number].FiftyTwo_WeekRange = StockViewpage.get(Constants.FIFTYTWO_WEEKRANGE);
+		stocklist[number].Volume = StockViewpage.get(Constants.VOLUME);
+		stocklist[number].AvgVolume = StockViewpage.get(Constants.AVERAGE_VOLUME);
+		stocklist[number].MarketCap_intraday = StockViewpage.get(Constants.MARKETCAP_INTRADAY);
+		stocklist[number].Beta_5Y_Monthly = StockViewpage.get(Constants.BETA_5Y_MONTHLY);
+		stocklist[number].PERatio_TTM = StockViewpage.get(Constants.PE_RATION_TTM);
+		stocklist[number].EPS_TTM = StockViewpage.get(Constants.EPS_TTM);
+		stocklist[number].Earnings_Date = StockViewpage.get(Constants.EARNINGS_DATE);
+		stocklist[number].Forward_Dividend_and_Yield = StockViewpage.get(Constants.FORWARD_DIVIDEND_AND_YIELD);
+		stocklist[number].Ex_Dividend_Date = StockViewpage.get(Constants.EX_DIVIDEND_DATE);
+		stocklist[number].y_Target_Est = StockViewpage.get(Constants.Y_TARGET_EST);
+		
+	}
 	
+	public Stock getStockData(int number) {
+		number = number - 1;
+		return stocklist[number];
+	}
+	
+	public void UpdateButton(JButton button, String StockSymbol, String Price, String Delta, String DeltaPercentage){
+		String prompt = String.format("<html><span style='color:black;'>%s %s </span>"+
+				"<span style='color:%s;'>(%s)(%s)</span></html>",
+				StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
+		
+		button.setText(prompt);
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -59,6 +100,10 @@ public class HomeScreen {
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 707, 543);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		for(int i = 0; i < 10; i++) {
+			stocklist[i] = new Stock();
+		}
 		
 		JPanel panel = new JPanel();
 		
@@ -565,7 +610,8 @@ public class HomeScreen {
 		stockviewbutton6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				
+				StockViewPage viewpage = new StockViewPage(home, 6);
 			}
 		});
 		
@@ -576,7 +622,7 @@ public class HomeScreen {
 		stockviewbutton7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 7);
 			}
 		});
 		
@@ -587,7 +633,7 @@ public class HomeScreen {
 		stockviewbutton8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 8);
 			}
 		});
 		
@@ -598,7 +644,7 @@ public class HomeScreen {
 		stockviewbutton9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 9);
 			}
 		});
 		
@@ -609,7 +655,7 @@ public class HomeScreen {
 		stockviewbutton10.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 10);
 			}
 		});
 		
@@ -631,7 +677,7 @@ public class HomeScreen {
 		stockviewbutton1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 0);
 			}
 		});
 		
@@ -651,7 +697,7 @@ public class HomeScreen {
 		stockviewbutton2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 2);
 			}
 		});
 		
@@ -662,7 +708,7 @@ public class HomeScreen {
 		stockviewbutton3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 3);
 			}
 		});
 		
@@ -673,7 +719,7 @@ public class HomeScreen {
 		stockviewbutton4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 4);
 			}
 		});
 		
@@ -684,7 +730,7 @@ public class HomeScreen {
 		stockviewbutton5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage.main(null);
+				StockViewPage viewpage = new StockViewPage(home, 5);
 			}
 		});
 		
@@ -693,6 +739,7 @@ public class HomeScreen {
 		
 		
 	}
+	
 
 
 }

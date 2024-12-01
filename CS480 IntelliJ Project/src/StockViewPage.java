@@ -1,45 +1,54 @@
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class StockViewPage {
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+
+public class StockViewPage implements Runnable{
 
 	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					StockViewPage window = new StockViewPage();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public Stock currentstock;
+
+	public void run() {
+		try {
+			this.frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public StockViewPage() {
 		initialize();
 	}
+	
+	/**
+	 * Create the application.
+	 * @param number
+	 * @param home 
+	 */
+	public StockViewPage(HomeScreen home, int number) {
+		this.currentstock = home.stocklist[number];
+		initialize();
+
+		EventQueue.invokeLater(this);
+	}
+
+
 
 	/**
 	 * Initialize the contents of the frame.
@@ -53,13 +62,29 @@ public class StockViewPage {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		
-		
-		JLabel TitleLabel = new JLabel("Title");
+		JLabel TitleLabel = new JLabel(currentstock.StockName + "("+ currentstock.Stocksymbol+")"
+				+ "("+currentstock.Changefrompreviousclose+")"+"("+currentstock.ChangefrompreviousclosePrecentage+")");
+
 		TitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		
-		JPanel panel_1 = new JPanel();
+		DefaultCategoryDataset data = new DefaultCategoryDataset();
+        data.addValue(1, "Stock Symbol", "Day 1");
+        data.addValue(4.6, "Stock Symbol", "Day 2");
+        data.addValue(3, "Stock Symbol", "Day 3");
+        data.addValue(5, "Stock Symbol", "Day 4");
+        data.addValue(6, "Stock Symbol", "Day 5");
+
+        JFreeChart chart = ChartFactory.createLineChart(
+                "Stock data",  	//graph title
+                "Stock date",  	//x value title      
+                "Stock Price", 	// y value title   
+                data        	//data being displayed
+        );
 		
-		JLabel prevcloselabel = new JLabel("Previous Close:");
+		ChartPanel panel_1 = new ChartPanel((chart));
+       
+		
+		JLabel prevcloselabel = new JLabel("Previous Close: ");
 		prevcloselabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel openlabel = new JLabel("Open:");
