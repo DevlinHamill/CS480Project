@@ -164,6 +164,148 @@ public class AlphaVantageApiHelper {
         return data;
     }
 
+    public static JSONObject getOverviewJSON(String symbol) {
+        String request = baseUrl + "function=OVERVIEW" + "&symbol=" + sanitizeStockSymbol(symbol) + "&apikey=" + apiKey;
+        return getJSON(request);
+    }
+
+    public static JSONObject getGlobalQuoteJSON(String symbol) {
+        String request = baseUrl + "function=GLOBAL_QUOTE" + "&symbol=" + sanitizeStockSymbol(symbol) + "&apikey=" + apiKey;
+        return getJSON(request);
+    }
+
+    public static HashMap<String, String> getStockViewData(String symbol){
+
+        HashMap<String, String> ViewPageData = new HashMap<String, String>();
+
+        /**
+         * Overview connection
+         */
+        JSONObject Overview = getOverviewJSON(symbol);
+        JSONObject Global = getGlobalQuoteJSON(symbol);
+        JSONObject Daily = getDailyJSON(symbol, true);
+
+        /**
+         * name string
+         */
+        String Name = Overview
+                .getString("Name");
+        ViewPageData.put(Name, Constants.NAME);
+
+        /**
+         * Previous close
+         */
+
+        String PreviousClose = Global
+                .getString("08. previous close");
+        ViewPageData.put(PreviousClose, Constants.PREVIOUS_CLOSE);
+
+        /**
+         * Open
+         */
+
+        String Open = Daily
+                .getJSONObject("Time Series (Daily)")
+                .getJSONObject(getMetadataJSON(Daily)
+                        .getString("3. Last Refreshed"))
+                .getString("1. open");
+        ViewPageData.put(Open, Constants.OPEN);
+
+        /**
+         * Bid
+         * not exactly bid
+         */
+
+        String Bid = Global
+                .getString("03. high");
+        ViewPageData.put(Bid, Constants.BID);
+
+        /**
+         * Ask
+         * (not exactly ask)
+         */
+
+        String Ask = Global
+                .getString("04. low");
+        ViewPageData.put(Ask, Constants.ASK);
+
+        /**
+         * Days Range
+         */
+
+        String low = Global
+                .getString("04. low");
+
+        String high = Global
+                .getString("03. high");
+
+        String Days_Range = low + " - " +high;
+        ViewPageData.put(Days_Range, Constants.DAYSRANGE);
+
+        /**
+         * 52 week range
+         */
+
+        String FiftyTwo_week_low = Overview
+                .getString("52WeekLow");
+        String FiftyTwo_week_high = Overview
+                .getString("52WeekHigh");
+        String week_range = FiftyTwo_week_low+ " - " + FiftyTwo_week_high;
+
+        ViewPageData.put(week_range, Constants.FIFTYTWO_WEEKRANGE);
+
+        /**
+         * Volume
+         */
+        String volume = Global
+                .getString("06. volume");
+
+        ViewPageData.put(volume, Constants.VOLUME);
+
+
+        /**
+         * Avg volume
+         */
+
+        /**
+         * Market cap intraday
+         */
+
+        /**
+         * Beta (5y monthly)
+         */
+
+        /**
+         * PE Ratio (TTM)
+         */
+
+        /**
+         * PE Ratio (TTM)
+         */
+
+        /**
+         * EPS (TTM)
+         */
+
+        /**
+         * Earning Date
+         */
+
+        /**
+         * Foward dividend & yield
+         */
+
+        /**
+         * Ex-Dividend Date
+         */
+
+        /**
+         * 1 year target estimate
+         */
+
+        return ViewPageData;
+    }
+
     public static void runApiTest() {
         System.out.println("test getIntradayJSON(\"IBM\", \"1min\"):");
         JSONObject jsonResponse = getIntradayJSON("IBM", "1min");
