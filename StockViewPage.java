@@ -20,11 +20,13 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 
-public class StockViewPage {
+public class StockViewPage extends JFrame{
 
 	private JFrame frame;
-
-	public Stock currentstock;
+	public static StockViewPage window;
+	public static Stock currentstock;
+	private static int number;
+	
 	
 	/**
 	 * Launch the application.
@@ -33,7 +35,7 @@ public class StockViewPage {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StockViewPage window = new StockViewPage();
+					window = new StockViewPage();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,6 +56,7 @@ public class StockViewPage {
 	 */
 	public StockViewPage(HomeScreen home, int number) {
 		this.currentstock = home.stocklist[number];
+		
 		initialize();
 	}
 
@@ -71,9 +74,9 @@ public class StockViewPage {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		
-		JLabel TitleLabel = new JLabel("");
-		System.out.println(currentstock.StockName + "("+ currentstock.Stocksymbol+")"
+		JLabel TitleLabel = new JLabel(currentstock.StockName + "("+ currentstock.Stocksymbol+")"
 				+ "("+currentstock.Changefrompreviousclose+")"+"("+currentstock.ChangefrompreviousclosePrecentage+")");
+				
 		TitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		
 		DefaultCategoryDataset data = new DefaultCategoryDataset();
@@ -93,52 +96,52 @@ public class StockViewPage {
 		ChartPanel panel_1 = new ChartPanel((chart));
        
 		
-		JLabel prevcloselabel = new JLabel("Previous Close: ");
+		JLabel prevcloselabel = new JLabel("Previous Close: "+currentstock.Previous_Close);
 		prevcloselabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel openlabel = new JLabel("Open:");
+		JLabel openlabel = new JLabel("Open: "+currentstock.Open);
 		openlabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel bidlabel = new JLabel("Bid:");
+		JLabel bidlabel = new JLabel("Bid: "+currentstock.Bid);
 		bidlabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel asklabel = new JLabel("Ask:");
+		JLabel asklabel = new JLabel("Ask:"+currentstock.Ask);
 		asklabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel dayRangeLabel = new JLabel("Day's Range:");
+		JLabel dayRangeLabel = new JLabel("Day's Range: "+currentstock.DaysRange);
 		dayRangeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel MarketCapLabel = new JLabel("Market Cap (IntraDay):");
+		JLabel MarketCapLabel = new JLabel("Market Cap (IntraDay): "+currentstock.MarketCap_intraday);
 		MarketCapLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		
-		JLabel EarningsDateLabel = new JLabel("Earnings Date:");
+		JLabel EarningsDateLabel = new JLabel("Earnings Date: "+ currentstock.Earnings_Date);
 		EarningsDateLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel weekRangeLabel = new JLabel("52 Week Range:");
+		JLabel weekRangeLabel = new JLabel("52 Week Range: "+currentstock.FiftyTwo_WeekRange);
 		weekRangeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel VolumeLabel = new JLabel("Volume:");
+		JLabel VolumeLabel = new JLabel("Volume: "+ currentstock.Volume);
 		VolumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel AvgVolumeLabel = new JLabel("Avg. Volume:");
+		JLabel AvgVolumeLabel = new JLabel("Avg. Volume: "+currentstock.AvgVolume);
 		AvgVolumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel BetaLabel = new JLabel("Beta (5Y Monthly):");
+		JLabel BetaLabel = new JLabel("Beta (5Y Monthly): "+currentstock.Beta_5Y_Monthly);
 		BetaLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel PERationLabel = new JLabel("PE Ration (TTM):");
+		JLabel PERationLabel = new JLabel("PE Ration (TTM): "+currentstock.PERatio_TTM);
 		PERationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel EPSTTMRatio = new JLabel("EPS (TTM):");
+		JLabel EPSTTMRatio = new JLabel("EPS (TTM): "+currentstock.EPS_TTM);
 		EPSTTMRatio.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel ForwardDivYieldLabel = new JLabel("Forward Div & Yield:");
+		JLabel ForwardDivYieldLabel = new JLabel("Forward Div & Yield: "+currentstock.Forward_Dividend_and_Yield);
 		ForwardDivYieldLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel ExDivDateLabel = new JLabel("Ex-Div Date:");
+		JLabel ExDivDateLabel = new JLabel("Ex-Div Date: "+currentstock.Ex_Dividend_Date);
 		ExDivDateLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel TargetEstLabel = new JLabel("1y Target Est:");
+		JLabel TargetEstLabel = new JLabel("1y Target Est: "+currentstock.y_Target_Est);
 		TargetEstLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JButton BackButton = new JButton("Close");
