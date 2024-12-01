@@ -24,6 +24,8 @@ public class StockViewPage {
 
 	private JFrame frame;
 
+	public Stock currentstock;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -40,13 +42,23 @@ public class StockViewPage {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	
 	public StockViewPage() {
 		initialize();
 	}
+	
+	/**
+	 * Create the application.
+	 * @param stocklist 
+	 * @param home 
+	 */
+	public StockViewPage(HomeScreen home, int number) {
+		this.currentstock = home.stocklist[number];
+		initialize();
+	}
 
+	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -59,7 +71,9 @@ public class StockViewPage {
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		
-		JLabel TitleLabel = new JLabel("Title");
+		JLabel TitleLabel = new JLabel("");
+		System.out.println(currentstock.StockName + "("+ currentstock.Stocksymbol+")"
+				+ "("+currentstock.Changefrompreviousclose+")"+"("+currentstock.ChangefrompreviousclosePrecentage+")");
 		TitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		
 		DefaultCategoryDataset data = new DefaultCategoryDataset();

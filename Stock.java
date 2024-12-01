@@ -2,9 +2,11 @@ package test;
 
 public class Stock {
 	
+		public String StockName;
 	    public String Stocksymbol;
-		public String Initialstockprice;
-		public String Deltafrompreviousclose;
+		public String Currentstockprice;
+		public String Changefrompreviousclose;
+		public String ChangefrompreviousclosePrecentage;
 		public String Previous_Close; 
 		public String Open;
 		public String Bid;

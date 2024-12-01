@@ -64,15 +64,7 @@ public class popup extends JFrame{
 		initialize();
 	}
 
-	public void UpdateButton(JButton button, String StockSymbol, String Price, String Delta, String DeltaPercentage) {
-		
-		String prompt = String.format("<html><span style='color:black;'>%s %s </span>"+
-				"<span style='color:%s;'>(%s)(%s)</span></html>",
-				StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
-		
-		button.setText(prompt);
-		
-	}
+
 	
 	public boolean CheckInput(String input) {
 		boolean condition = true;
@@ -141,17 +133,20 @@ public class popup extends JFrame{
 					if(CheckInput(input)) {
 									
 						HashMap<String, String> currentdata = AlphaVantageApiHelper.getHomeScreenData(input);
+						HashMap<String, String> StockViewdata = AlphaVantageApiHelper.getStockViewData(input);
 						if(buttonnum == 1) {
 							
 							String Delta = currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE);
 							String DeltaPrec = currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE);
-
-							UpdateButton(home.stockviewbutton1, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							
+							home.storeStockData(currentdata, StockViewdata, 1);
+							home.UpdateButton(home.stockviewbutton1, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
 							
 							
 							/*
 							 * testing:
-							 * 
+							 *
+							 */
 							System.out.println(input);
 							System.out.println(AlphaVantageApiHelper.stockExists(input));
 							
@@ -160,7 +155,7 @@ public class popup extends JFrame{
 												Constants.CURRENT_VALUE.toString()+": " +currentdata.get(Constants.CURRENT_VALUE)+ " "+
 												Constants.CHANGE_SINCE_PREVIOUS_CLOSE+": " +currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE)+" "+
 												Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE+": " +currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							*/
+							
 							if(isadding == true) {
 								home.addbutton1.setVisible(false);
 								home.editbutton1.setVisible(true);
@@ -170,7 +165,8 @@ public class popup extends JFrame{
 							
 						}else if(buttonnum == 2) {
 							
-							UpdateButton(home.stockviewbutton2, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));	
+							home.UpdateButton(home.stockviewbutton2, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));	
+							home.storeStockData(currentdata, StockViewdata, 2);
 							if(isadding == true) {
 								home.addbutton2.setVisible(false);
 								home.editbutton2.setVisible(true);
@@ -178,8 +174,8 @@ public class popup extends JFrame{
 								home.stockviewbutton2.setVisible(true);
 							}
 						}else if(buttonnum == 3) {
-							UpdateButton(home.stockviewbutton3, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							
+							home.UpdateButton(home.stockviewbutton3, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 3);
 							if(isadding == true) {
 								home.addbutton3.setVisible(false);
 								home.editbutton3.setVisible(true);
@@ -187,8 +183,8 @@ public class popup extends JFrame{
 								home.stockviewbutton3.setVisible(true);
 							}
 						}else if(buttonnum == 4) {
-							UpdateButton(home.stockviewbutton4, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							
+							home.UpdateButton(home.stockviewbutton4, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 4);
 							if(isadding == true) {
 								home.addbutton4.setVisible(false);
 								home.editbutton4.setVisible(true);
@@ -196,8 +192,8 @@ public class popup extends JFrame{
 								home.stockviewbutton4.setVisible(true);
 							}
 						}else if(buttonnum == 5) {
-							UpdateButton(home.stockviewbutton5, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							
+							home.UpdateButton(home.stockviewbutton5, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 5);
 							if(isadding == true) {
 								home.addbutton5.setVisible(false);
 								home.editbutton5.setVisible(true);
@@ -206,8 +202,8 @@ public class popup extends JFrame{
 							}
 						}else if(buttonnum == 6) {
 							
-							UpdateButton(home.stockviewbutton6, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							
+							home.UpdateButton(home.stockviewbutton6, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 6);
 							if(isadding == true) {
 								home.addbutton6.setVisible(false);
 								home.editbutton6.setVisible(true);
@@ -216,8 +212,8 @@ public class popup extends JFrame{
 							}
 						}else if(buttonnum == 7) {
 							
-							UpdateButton(home.stockviewbutton7, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							
+							home.UpdateButton(home.stockviewbutton7, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 7);
 							if(isadding == true) {
 								home.addbutton7.setVisible(false);
 								home.editbutton7.setVisible(true);
@@ -225,8 +221,8 @@ public class popup extends JFrame{
 								home.stockviewbutton7.setVisible(true);
 							}
 						}else if(buttonnum == 8) {
-							UpdateButton(home.stockviewbutton8, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							
+							home.UpdateButton(home.stockviewbutton8, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 8);
 							if(isadding == true) {
 								home.addbutton8.setVisible(false);
 								home.editbutton8.setVisible(true);
@@ -234,7 +230,8 @@ public class popup extends JFrame{
 								home.stockviewbutton8.setVisible(true);
 							}
 						}else if(buttonnum == 9) {
-							UpdateButton(home.stockviewbutton9, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 9);
+							home.UpdateButton(home.stockviewbutton9, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
 							
 							if(isadding == true) {
 								home.addbutton9.setVisible(false);
@@ -243,8 +240,8 @@ public class popup extends JFrame{
 								home.stockviewbutton9.setVisible(true);
 							}
 						}else if(buttonnum == 10) {
-							UpdateButton(home.stockviewbutton10, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-							
+							home.UpdateButton(home.stockviewbutton10, currentdata.get(Constants.STOCK_SYMBOL), currentdata.get(Constants.CURRENT_VALUE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE), currentdata.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+							home.storeStockData(currentdata, StockViewdata, 10);
 							if(isadding == true) {
 								home.addbutton10.setVisible(false);
 								home.editbutton10.setVisible(true);
