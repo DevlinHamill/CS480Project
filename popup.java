@@ -1,4 +1,4 @@
-package test;
+
 
 import java.awt.Button;
 import java.awt.Color;
@@ -69,6 +69,21 @@ public class popup extends JFrame{
 	
 	public boolean CheckInput(String input) {
 		boolean condition = true;
+		
+		for(int i = 0; i < input.length(); i++) {
+			char currentCharacter = input.charAt(i);
+
+			if(( Character.isDigit(currentCharacter) ) || ( !Character.isLetterOrDigit(currentCharacter) )) {
+				condition = false; 
+				String errorStr = "Stock symbol\ndoesnt exist!";
+				String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
+				errorLabel.setText(errorDisplay);
+				errorLabel.setVisible(true);
+				return condition;
+			}
+
+		}
+
 		
 		if(!AlphaVantageApiHelper.stockExists(input)) {
 			condition = false; 
