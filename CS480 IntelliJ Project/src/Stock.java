@@ -9,6 +9,18 @@ public class Stock {
 		updateData();
 	}
 
+	public String getStocksymbol() {
+		return Stocksymbol;
+	}
+
+	public String toString() {
+		return Stocksymbol;
+	}
+
+	public void updateData() {
+
+	}
+
 	public String StockName;
 	public String Stocksymbol;
 	public String Currentstockprice;
@@ -30,17 +42,6 @@ public class Stock {
 	public String Forward_Dividend_and_Yield;
 	public String Ex_Dividend_Date;
 	public String y_Target_Est;
+
 	public String Stock_chart;
-
-	public String getStocksymbol() {
-		return Stocksymbol;
-	}
-
-	public String toString() {
-		return Stocksymbol;
-	}
-
-	public void updateData() {
-
-	}
 }
