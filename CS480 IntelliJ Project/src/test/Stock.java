@@ -1,26 +1,7 @@
+package test;
+
 public class Stock {
-
-	public Stock() {
-
-	}
-
-	public Stock(String stocksymbol) {
-		Stocksymbol = stocksymbol;
-		updateData();
-	}
-
-	public String getStocksymbol() {
-		return Stocksymbol;
-	}
-
-	public String toString() {
-		return Stocksymbol;
-	}
-
-	public void updateData() {
-
-	}
-
+	
 	public String StockName;
 	public String Stocksymbol;
 	public String Currentstockprice;
@@ -42,6 +23,32 @@ public class Stock {
 	public String Forward_Dividend_and_Yield;
 	public String Ex_Dividend_Date;
 	public String y_Target_Est;
-
 	public String Stock_chart;
+	public String[] intraday_dates = new String[5];
+	public String[] intraday_values = new String[5];
+	public String[] daily_dates = new String[5];
+	public String[] daily_values = new String[5];
+	public String[] monthly_dates = new String[5];
+	public String[] monthly_values = new String[5];
+
+	public Stock() {
+
+	}
+
+	public Stock(String stocksymbol) {
+		Stocksymbol = stocksymbol;
+		updateData();
+	}
+
+	public String getStocksymbol() {
+		return Stocksymbol;
+	}
+
+	public String toString() {
+		return Stocksymbol;
+	}
+
+	public void updateData() {
+
+	}
 }

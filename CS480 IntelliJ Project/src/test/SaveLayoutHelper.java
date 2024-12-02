@@ -1,3 +1,5 @@
+package test;
+
 import java.io.*;
 
 public class SaveLayoutHelper {
@@ -14,7 +16,7 @@ public class SaveLayoutHelper {
         saveLayoutHelper.addStockAtPosition(new Stock("IBC"), 7);
         saveLayoutHelper.addStockAtPosition(new Stock("TXT"), 9);
 
-        for(int i : new int[]{0, 1, 2, 5, 7, 9}) {
+        for(int i = 0; i < 10; i++) {
             System.out.println("Position " + i + ": " + saveLayoutHelper.getStockAtPosition(i).getStocksymbol());
         }
     }

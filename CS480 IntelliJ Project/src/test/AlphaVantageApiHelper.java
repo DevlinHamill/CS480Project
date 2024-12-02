@@ -1,8 +1,12 @@
+package test;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -103,11 +107,16 @@ public class AlphaVantageApiHelper {
         return getJSON(request);
     }
     
+    public static JSONObject getMonthlyJSON(String symbol) {
+        String request = baseUrl + "function=TIME_SERIES_MONTHLY" + "&symbol=" + sanitizeStockSymbol(symbol) + "&apikey=" + apiKey;
+        return getJSON(request);
+    }
+    
     public static String sanitizeStockSymbol(String input) {
         String returnString = "";
 
         if (input != null) {
-            returnString = input.replaceAll("[^A-Z\\.]", "");
+            returnString = input.replaceAll("[^A-Z0-9\\.]", "");
         }
         return returnString;
     }
@@ -189,6 +198,8 @@ public class AlphaVantageApiHelper {
     	 JSONObject Daily = getDailyJSON(symbol, true);
     	 JSONObject Earning = getEarningsJSON(symbol);
     	 JSONObject Historical = getHistoricalJSON(symbol);
+    	 JSONObject Monthly = getMonthlyJSON(symbol);
+    	 
     	 
     	 /**
     	  * name string
@@ -409,23 +420,108 @@ public class AlphaVantageApiHelper {
          String EstimateStr = String.format("%.2f", Estimate);
          ViewPageData.put(Constants.Y_TARGET_EST, ""+EstimateStr);
          
-         System.out.println("Name: "+ViewPageData.get(Constants.NAME) + "\n"+
-        		 "Previous close: "+ViewPageData.get(Constants.PREVIOUS_CLOSE) + "\n"+
-        		 "Open: "+ViewPageData.get(Constants.OPEN) + "\n"+
-        		 "Bid: "+ViewPageData.get(Constants.BID) + "\n"+
-        		 "Ask: "+ViewPageData.get(Constants.ASK) + "\n"+
-        		 "Days range: "+ViewPageData.get(Constants.DAYSRANGE) + "\n"+
-        		 "52 week range: "+ViewPageData.get(Constants.FIFTYTWO_WEEKRANGE) + "\n"+
-        		 "Volume: "+ViewPageData.get(Constants.VOLUME) + "\n"+
-        		 "Average volume: "+ViewPageData.get(Constants.AVERAGE_VOLUME) + "\n"+
-        		 "Market cap: "+ViewPageData.get(Constants.MARKETCAP_INTRADAY) + "\n"+
-        		 "Beta: "+ViewPageData.get(Constants.BETA_5Y_MONTHLY) + "\n"+
-        		 "PE ratio: "+ViewPageData.get(Constants.PE_RATION_TTM) + "\n"+
-        		 "Eps: "+ViewPageData.get(Constants.EPS_TTM) + "\n"+
-        		 "Earning date: "+ViewPageData.get(Constants.EARNINGS_DATE) + "\n"+
-        		 "Forward div and yield: "+ViewPageData.get(Constants.FORWARD_DIVIDEND_AND_YIELD) + "\n"+
-        		 "ex dividend date: "+ViewPageData.get(Constants.EX_DIVIDEND_DATE) + "\n"+
-        		 "1y target est: "+ViewPageData.get(Constants.Y_TARGET_EST) + "\n");
+         /**
+          * chart data
+          */
+         
+         JSONObject seriesintra = intraday.getJSONObject("Time Series (5min)");
+         count = 0;
+         
+         ArrayList<String> sortedDates = new ArrayList<>(seriesintra.keySet());
+         Collections.sort(sortedDates, Collections.reverseOrder());
+         
+         for(String date : sortedDates) {
+        	 System.out.println(date);
+        	 String currentclose = seriesintra
+            		 .getJSONObject(date)
+            		 .getString("4. close");
+        	 String.format("%.2f", Double.parseDouble(currentclose));
+        	 if(count >= 5) {break;}
+        	 if(count == 0) {
+        		 ViewPageData.put(Constants.INTRADAY_DATE_ONE, date);
+        		 ViewPageData.put(Constants.INTRADAY_VALUE_ONE, currentclose);
+        	 }else if(count == 1) {
+        		 ViewPageData.put(Constants.INTRADAY_DATE_TWO, date);
+        		 ViewPageData.put(Constants.INTRADAY_VALUE_TWO, currentclose);
+        	 }else if(count == 2) {
+        		 ViewPageData.put(Constants.INTRADAY_DATE_THREE, date);
+        		 ViewPageData.put(Constants.INTRADAY_VALUE_THREE, currentclose);
+        	 }else if(count == 3) {
+        		 ViewPageData.put(Constants.INTRADAY_DATE_FOUR, date);
+        		 ViewPageData.put(Constants.INTRADAY_VALUE_FOUR, currentclose);
+        	 }else if(count == 4) {
+        		 ViewPageData.put(Constants.INTRADAY_DATE_FIVE, date);
+        		 ViewPageData.put(Constants.INTRADAY_VALUE_FIVE, currentclose);
+        	 }
+        	 
+        	 count++;
+        	 
+         }
+         
+         JSONObject seriesdaily = Daily.getJSONObject("Time Series (Daily)");
+         count = 0;
+         ArrayList<String> sortedDatesDaily = new ArrayList<>(seriesdaily.keySet());
+         Collections.sort(sortedDatesDaily, Collections.reverseOrder());
+         for(String date : sortedDatesDaily) {
+        	 System.out.println(date);
+        	 String currentclose = seriesdaily
+            		 .getJSONObject(date)
+            		 .getString("4. close");
+        	 String.format("%.2f", Double.parseDouble(currentclose));
+        	 if(count >= 5) {break;}
+        	 if(count == 0) {
+        		 ViewPageData.put(Constants.DAILY_DATE_ONE, date);
+        		 ViewPageData.put(Constants.DAILY_VALUE_ONE, currentclose);
+        	 }else if(count == 1) {
+        		 ViewPageData.put(Constants.DAILY_DATE_TWO, date);
+        		 ViewPageData.put(Constants.DAILY_VALUE_TWO, currentclose);
+        	 }else if(count == 2) {
+        		 ViewPageData.put(Constants.DAILY_DATE_THREE, date);
+        		 ViewPageData.put(Constants.DAILY_VALUE_THREE, currentclose);
+        	 }else if(count == 3) {
+        		 ViewPageData.put(Constants.DAILY_DATE_FOUR, date);
+        		 ViewPageData.put(Constants.DAILY_VALUE_FOUR, currentclose);
+        	 }else if(count == 4) {
+        		 ViewPageData.put(Constants.DAILY_DATE_FIVE, date);
+        		 ViewPageData.put(Constants.DAILY_VALUE_FIVE, currentclose);
+        	 }
+        	 
+        	 count++;
+        	 
+         }
+         
+         JSONObject seriesMonthly  = Monthly.getJSONObject("Monthly Time Series");
+         count = 0;
+         ArrayList<String> sortedDatesMonthly = new ArrayList<>(seriesMonthly.keySet());
+         Collections.sort(sortedDatesMonthly, Collections.reverseOrder());
+         for(String date : sortedDatesMonthly) {
+        	 System.out.println(date);
+        	 String currentclose = seriesMonthly
+            		 .getJSONObject(date)
+            		 .getString("4. close");
+        	 String.format("%.2f", Double.parseDouble(currentclose));
+        	 if(count >= 5) {break;}
+        	 if(count == 0) {
+        		 ViewPageData.put(Constants.MONTHLY_DATE_ONE, date);
+        		 ViewPageData.put(Constants.MONTHLY_VALUE_ONE, currentclose);
+        	 }else if(count == 1) {
+        		 ViewPageData.put(Constants.MONTHLY_DATE_TWO, date);
+        		 ViewPageData.put(Constants.MONTHLY_VALUE_TWO, currentclose);
+        	 }else if(count == 2) {
+        		 ViewPageData.put(Constants.MONTHLY_DATE_THREE, date);
+        		 ViewPageData.put(Constants.MONTHLY_VALUE_THREE, currentclose);
+        	 }else if(count == 3) {
+        		 ViewPageData.put(Constants.MONTHLY_DATE_FOUR, date);
+        		 ViewPageData.put(Constants.MONTHLY_VALUE_FOUR, currentclose);
+        	 }else if(count == 4) {
+        		 ViewPageData.put(Constants.MONTHLY_DATE_FIVE, date);
+        		 ViewPageData.put(Constants.MONTHLY_VALUE_FIVE, currentclose);
+        	 }
+        	 
+        	 count++;
+        	 
+         }
+         
          
          return ViewPageData;
     }

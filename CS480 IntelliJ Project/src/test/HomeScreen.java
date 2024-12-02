@@ -1,3 +1,5 @@
+package test;
+
 import java.awt.EventQueue;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -25,6 +27,10 @@ public class HomeScreen {
 	public static JButton editbutton1, editbutton2, editbutton3, editbutton4,editbutton5, editbutton6, editbutton7, editbutton8, editbutton9, editbutton10;
 	public static JButton removebutton1, removebutton2, removebutton3, removebutton4, removebutton5, removebutton6, removebutton7, removebutton8, removebutton9, removebutton10;
 
+	JButton[] stockViewButtons = new JButton[] {stockviewbutton1, stockviewbutton2, stockviewbutton3, stockviewbutton4, stockviewbutton5, stockviewbutton6, stockviewbutton7, stockviewbutton8, stockviewbutton9, stockviewbutton10};
+
+	public static SaveLayoutHelper saver = new SaveLayoutHelper();
+
 	public static HomeScreen home;
 	public Stock[] stocklist = new Stock[10];
 	/**
@@ -49,6 +55,70 @@ public class HomeScreen {
 	 */
 	public HomeScreen() {
 		initialize();
+	}
+	
+	public void removeData(int number) {
+		number = number - 1;
+		stocklist[number].Currentstockprice = "";
+		stocklist[number].Stocksymbol = "";
+		stocklist[number].Changefrompreviousclose = "";
+		stocklist[number].ChangefrompreviousclosePrecentage = "";
+		
+		stocklist[number].StockName = "";
+		stocklist[number].Previous_Close = "";
+		stocklist[number].Open = "";
+		stocklist[number].Bid = "";
+		stocklist[number].Ask = "";
+		stocklist[number].DaysRange = "";
+		stocklist[number].FiftyTwo_WeekRange = "";
+		stocklist[number].Volume = "";
+		stocklist[number].AvgVolume = "";
+		stocklist[number].MarketCap_intraday = "";
+		stocklist[number].Beta_5Y_Monthly = "";
+		stocklist[number].PERatio_TTM = "";
+		stocklist[number].EPS_TTM = "";
+		stocklist[number].Earnings_Date = "";
+		stocklist[number].Forward_Dividend_and_Yield = "";
+		stocklist[number].Ex_Dividend_Date = "";
+		stocklist[number].y_Target_Est = "";
+		
+		stocklist[number].intraday_dates[0] = "";
+		stocklist[number].intraday_dates[1] = "";
+		stocklist[number].intraday_dates[2] = "";
+		stocklist[number].intraday_dates[3] = "";
+		stocklist[number].intraday_dates[4] = "";
+		
+		stocklist[number].intraday_values[0] = "";
+		stocklist[number].intraday_values[1] = "";
+		stocklist[number].intraday_values[2] = "";
+		stocklist[number].intraday_values[3] = "";
+		stocklist[number].intraday_values[4] = "";
+		
+		stocklist[number].daily_dates[0] = "";
+		stocklist[number].daily_dates[1] = "";
+		stocklist[number].daily_dates[2] = "";
+		stocklist[number].daily_dates[3] = "";
+		stocklist[number].daily_dates[4] = "";
+		
+		stocklist[number].daily_values[0] = "";
+		stocklist[number].daily_values[1] = "";
+		stocklist[number].daily_values[2] = "";
+		stocklist[number].daily_values[3] = "";
+		stocklist[number].daily_values[4] = "";
+		
+		stocklist[number].monthly_dates[0] = "";
+		stocklist[number].monthly_dates[1] = "";
+		stocklist[number].monthly_dates[2] = "";
+		stocklist[number].monthly_dates[3] = "";
+		stocklist[number].monthly_dates[4] = "";
+		
+		stocklist[number].monthly_values[0] = "";
+		stocklist[number].monthly_values[1] = "";
+		stocklist[number].monthly_values[2] = "";
+		stocklist[number].monthly_values[3] = "";
+		stocklist[number].monthly_values[4] = "";
+		
+		
 	}
 	
 	public void storeStockData(HashMap<String,String> homepage, HashMap<String, String> StockViewpage, int number) {
@@ -77,6 +147,43 @@ public class HomeScreen {
 		stocklist[number].Ex_Dividend_Date = StockViewpage.get(Constants.EX_DIVIDEND_DATE);
 		stocklist[number].y_Target_Est = StockViewpage.get(Constants.Y_TARGET_EST);
 		
+		stocklist[number].intraday_dates[0] = StockViewpage.get(Constants.INTRADAY_DATE_ONE);
+		stocklist[number].intraday_dates[1] = StockViewpage.get(Constants.INTRADAY_DATE_TWO);
+		stocklist[number].intraday_dates[2] = StockViewpage.get(Constants.INTRADAY_DATE_THREE);
+		stocklist[number].intraday_dates[3] = StockViewpage.get(Constants.INTRADAY_DATE_FOUR);
+		stocklist[number].intraday_dates[4] = StockViewpage.get(Constants.INTRADAY_DATE_FIVE);
+		
+		stocklist[number].intraday_values[0] = StockViewpage.get(Constants.INTRADAY_VALUE_ONE);
+		stocklist[number].intraday_values[1] = StockViewpage.get(Constants.INTRADAY_VALUE_TWO);
+		stocklist[number].intraday_values[2] = StockViewpage.get(Constants.INTRADAY_VALUE_THREE);
+		stocklist[number].intraday_values[3] = StockViewpage.get(Constants.INTRADAY_VALUE_FOUR);
+		stocklist[number].intraday_values[4] = StockViewpage.get(Constants.INTRADAY_VALUE_FIVE);
+		
+		stocklist[number].daily_dates[0] = StockViewpage.get(Constants.DAILY_DATE_ONE);
+		stocklist[number].daily_dates[1] = StockViewpage.get(Constants.DAILY_DATE_TWO);
+		stocklist[number].daily_dates[2] = StockViewpage.get(Constants.DAILY_DATE_THREE);
+		stocklist[number].daily_dates[3] = StockViewpage.get(Constants.DAILY_DATE_FOUR);
+		stocklist[number].daily_dates[4] = StockViewpage.get(Constants.DAILY_DATE_FIVE);
+		
+		stocklist[number].daily_values[0] = StockViewpage.get(Constants.DAILY_VALUE_ONE);
+		stocklist[number].daily_values[1] = StockViewpage.get(Constants.DAILY_VALUE_TWO);
+		stocklist[number].daily_values[2] = StockViewpage.get(Constants.DAILY_VALUE_THREE);
+		stocklist[number].daily_values[3] = StockViewpage.get(Constants.DAILY_VALUE_FOUR);
+		stocklist[number].daily_values[4] = StockViewpage.get(Constants.DAILY_VALUE_FIVE);
+		
+		stocklist[number].monthly_dates[0] = StockViewpage.get(Constants.MONTHLY_DATE_ONE);
+		stocklist[number].monthly_dates[1] = StockViewpage.get(Constants.MONTHLY_DATE_TWO);
+		stocklist[number].monthly_dates[2] = StockViewpage.get(Constants.MONTHLY_DATE_THREE);
+		stocklist[number].monthly_dates[3] = StockViewpage.get(Constants.MONTHLY_DATE_FOUR);
+		stocklist[number].monthly_dates[4] = StockViewpage.get(Constants.MONTHLY_DATE_FIVE);
+		
+		stocklist[number].monthly_values[0] = StockViewpage.get(Constants.MONTHLY_VALUE_ONE);
+		stocklist[number].monthly_values[1] = StockViewpage.get(Constants.MONTHLY_VALUE_TWO);
+		stocklist[number].monthly_values[2] = StockViewpage.get(Constants.MONTHLY_VALUE_THREE);
+		stocklist[number].monthly_values[3] = StockViewpage.get(Constants.MONTHLY_VALUE_FOUR);
+		stocklist[number].monthly_values[4] = StockViewpage.get(Constants.MONTHLY_VALUE_FIVE);
+		
+		
 	}
 	
 	public Stock getStockData(int number) {
@@ -85,6 +192,7 @@ public class HomeScreen {
 	}
 	
 	public void UpdateButton(JButton button, String StockSymbol, String Price, String Delta, String DeltaPercentage){
+
 		String prompt = String.format("<html><span style='color:black;'>%s %s </span>"+
 				"<span style='color:%s;'>(%s)(%s)</span></html>",
 				StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
@@ -269,6 +377,7 @@ public class HomeScreen {
 				addbutton1.setVisible(true);
 				editbutton1.setVisible(false);
 				removebutton1.setVisible(false);
+				removeData(1);
 			}
 		});
 		removebutton1.setIcon(new ImageIcon(removeimage));
@@ -285,6 +394,7 @@ public class HomeScreen {
 				addbutton2.setVisible(true);
 				editbutton2.setVisible(false);
 				removebutton2.setVisible(false);
+				removeData(2);
 			}
 		});
 		removebutton2.setIcon(new ImageIcon(removeimage));
@@ -301,6 +411,7 @@ public class HomeScreen {
 				addbutton3.setVisible(true);
 				editbutton3.setVisible(false);
 				removebutton3.setVisible(false);
+				removeData(3);
 				
 			}
 		});
@@ -318,6 +429,7 @@ public class HomeScreen {
 				addbutton4.setVisible(true);
 				editbutton4.setVisible(false);
 				removebutton4.setVisible(false);
+				removeData(4);
 			}
 		});
 		removebutton4.setIcon(new ImageIcon(removeimage));
@@ -334,6 +446,7 @@ public class HomeScreen {
 				addbutton5.setVisible(true);
 				editbutton5.setVisible(false);
 				removebutton5.setVisible(false);
+				removeData(5);
 			}
 		});
 		removebutton5.setIcon(new ImageIcon(removeimage));
@@ -350,6 +463,7 @@ public class HomeScreen {
 				addbutton6.setVisible(true);
 				editbutton6.setVisible(false);
 				removebutton6.setVisible(false);
+				removeData(6);
 			}
 		});
 		removebutton6.setIcon(new ImageIcon(removeimage));
@@ -366,6 +480,7 @@ public class HomeScreen {
 				addbutton7.setVisible(true);
 				editbutton7.setVisible(false);
 				removebutton7.setVisible(false);
+				removeData(7);
 			}
 		});
 		removebutton7.setIcon(new ImageIcon(removeimage));
@@ -382,6 +497,7 @@ public class HomeScreen {
 				addbutton8.setVisible(true);
 				editbutton8.setVisible(false);
 				removebutton8.setVisible(false);
+				removeData(8);
 			}
 		});
 		removebutton8.setIcon(new ImageIcon(removeimage));
@@ -398,6 +514,7 @@ public class HomeScreen {
 				addbutton9.setVisible(true);
 				editbutton9.setVisible(false);
 				removebutton9.setVisible(false);
+				removeData(9);
 			}
 		});
 		removebutton9.setIcon(new ImageIcon(removeimage));
@@ -414,6 +531,7 @@ public class HomeScreen {
 				addbutton10.setVisible(true);
 				editbutton10.setVisible(false);
 				removebutton10.setVisible(false);
+				removeData(10);
 			}
 		});
 		removebutton10.setIcon(new ImageIcon(removeimage));
@@ -611,7 +729,8 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				StockViewPage viewpage = new StockViewPage(home, 6);
+				StockViewPage viewpage = new StockViewPage(home, 5);
+				viewpage.main(null);
 			}
 		});
 		
@@ -622,7 +741,8 @@ public class HomeScreen {
 		stockviewbutton7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 7);
+				StockViewPage viewpage = new StockViewPage(home, 6);
+				viewpage.main(null);
 			}
 		});
 		
@@ -633,7 +753,8 @@ public class HomeScreen {
 		stockviewbutton8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 8);
+				StockViewPage viewpage = new StockViewPage(home, 7);
+				viewpage.main(null);
 			}
 		});
 		
@@ -644,7 +765,8 @@ public class HomeScreen {
 		stockviewbutton9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 9);
+				StockViewPage viewpage = new StockViewPage(home, 8);
+				viewpage.main(null);
 			}
 		});
 		
@@ -655,7 +777,8 @@ public class HomeScreen {
 		stockviewbutton10.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 10);
+				StockViewPage viewpage = new StockViewPage(home, 9);
+				viewpage.main(null);
 			}
 		});
 		
@@ -678,6 +801,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				StockViewPage viewpage = new StockViewPage(home, 0);
+				viewpage.main(null);
 			}
 		});
 		
@@ -697,7 +821,8 @@ public class HomeScreen {
 		stockviewbutton2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 2);
+				StockViewPage viewpage = new StockViewPage(home, 1);
+				viewpage.main(null);
 			}
 		});
 		
@@ -708,7 +833,8 @@ public class HomeScreen {
 		stockviewbutton3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 3);
+				StockViewPage viewpage = new StockViewPage(home, 2);
+				viewpage.main(null);
 			}
 		});
 		
@@ -719,7 +845,8 @@ public class HomeScreen {
 		stockviewbutton4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 4);
+				StockViewPage viewpage = new StockViewPage(home, 3);
+				viewpage.main(null);
 			}
 		});
 		
@@ -730,14 +857,25 @@ public class HomeScreen {
 		stockviewbutton5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 5);
+				StockViewPage viewpage = new StockViewPage(home, 4);
+				viewpage.main(null);
 			}
 		});
 		
 		panel.add(stockviewbutton5);
 		frame.getContentPane().setLayout(groupLayout);
-		
-		
+
+		for(int i = 0; i < stockViewButtons.length; i++) {
+			Stock temp = saver.getStockAtPosition(i);
+			HashMap<String, String> homeScreenData = AlphaVantageApiHelper.getHomeScreenData(temp.getStocksymbol());
+			if(temp != null) {
+				UpdateButton(stockViewButtons[i],
+						temp.getStocksymbol(),
+						homeScreenData.get(Constants.CURRENT_VALUE),
+						homeScreenData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE),
+						homeScreenData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
+				}
+		}
 	}
 	
 
