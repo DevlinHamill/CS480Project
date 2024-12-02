@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -17,6 +18,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 
@@ -72,29 +75,61 @@ public class StockViewPage extends JFrame{
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		String StockSymbol = currentstock.Stocksymbol;
+		String Price = currentstock.Currentstockprice;
+		String Delta = currentstock.Changefrompreviousclose;
+		String DeltaPercentage = currentstock.ChangefrompreviousclosePrecentage;
 		
+		String prompt = String.format("<html><span style='color:black;'>%s (%s) %s </span>"+
+				"<span style='color:%s;'>(%s)(%s)</span></html>",
+				currentstock.StockName, StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
 		
-		JLabel TitleLabel = new JLabel(currentstock.StockName + "("+ currentstock.Stocksymbol+")"
-				+ "("+currentstock.Changefrompreviousclose+")"+"("+currentstock.ChangefrompreviousclosePrecentage+")");
+		JLabel TitleLabel = new JLabel("");
+		TitleLabel.setText(prompt);
 				
 		TitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		
 		DefaultCategoryDataset data = new DefaultCategoryDataset();
-        data.addValue(1, "Stock Symbol", "Day 1");
-        data.addValue(4.6, "Stock Symbol", "Day 2");
-        data.addValue(3, "Stock Symbol", "Day 3");
-        data.addValue(5, "Stock Symbol", "Day 4");
-        data.addValue(6, "Stock Symbol", "Day 5");
-
+        data.addValue(Double.parseDouble(currentstock.intraday_values[0]), "Stock Symbol", currentstock.intraday_dates[0]);
+        data.addValue(Double.parseDouble(currentstock.intraday_values[1]), "Stock Symbol", currentstock.intraday_dates[1]);
+        data.addValue(Double.parseDouble(currentstock.intraday_values[2]), "Stock Symbol", currentstock.intraday_dates[2]);
+        data.addValue(Double.parseDouble(currentstock.intraday_values[3]), "Stock Symbol", currentstock.intraday_dates[3]);
+        data.addValue(Double.parseDouble(currentstock.intraday_values[4]), "Stock Symbol", currentstock.intraday_dates[4]);
+       
+        
         JFreeChart chart = ChartFactory.createLineChart(
-                "Stock data",  	//graph title
+                "Stock data (Intraday)",  	//graph title
                 "Stock date",  	//x value title      
                 "Stock Price", 	// y value title   
-                data        	//data being displayed
+                data,        	//data being displayed
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false
         );
 		
+    
+        ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
+        double[] yValues = new double[] {
+                Double.parseDouble(currentstock.intraday_values[0]),
+                Double.parseDouble(currentstock.intraday_values[1]),
+                Double.parseDouble(currentstock.intraday_values[2]),
+                Double.parseDouble(currentstock.intraday_values[3]),
+                Double.parseDouble(currentstock.intraday_values[4])
+        };
+
+        
+        double minY = Arrays.stream(yValues).min().getAsDouble();
+        double maxY = Arrays.stream(yValues).max().getAsDouble();
+
+        yAxis.setRange(minY, maxY);
+
+        
 		ChartPanel panel_1 = new ChartPanel((chart));
-       
+		
+		panel_1.setRangeZoomable(true);
+		panel_1.setDomainZoomable(true);
+		panel_1.setMouseZoomable(true);
 		
 		JLabel prevcloselabel = new JLabel("Previous Close: "+currentstock.Previous_Close);
 		prevcloselabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
@@ -151,14 +186,141 @@ public class StockViewPage extends JFrame{
 				frame.dispose();
 			}
 		});
+		
+		JButton IntraDayButton = new JButton("Intraday chart");
+		IntraDayButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				data.clear();
+		        data.addValue(Double.parseDouble(currentstock.intraday_values[0]), "Stock Symbol", currentstock.intraday_dates[0]);
+		        data.addValue(Double.parseDouble(currentstock.intraday_values[1]), "Stock Symbol", currentstock.intraday_dates[1]);
+		        data.addValue(Double.parseDouble(currentstock.intraday_values[2]), "Stock Symbol", currentstock.intraday_dates[2]);
+		        data.addValue(Double.parseDouble(currentstock.intraday_values[3]), "Stock Symbol", currentstock.intraday_dates[3]);
+		        data.addValue(Double.parseDouble(currentstock.intraday_values[4]), "Stock Symbol", currentstock.intraday_dates[4]);
+		       
+		    
+		        JFreeChart chart = ChartFactory.createLineChart(
+		                "Stock data (Intraday)",  	//graph title
+		                "Stock date",  	//x value title      
+		                "Stock Price", 	// y value title   
+		                data,        	//data being displayed
+		                PlotOrientation.VERTICAL,
+		                true,
+		                true,
+		                false
+		        );
+		        
+		        ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
+		        double[] yValues = new double[] {
+		                Double.parseDouble(currentstock.intraday_values[0]),
+		                Double.parseDouble(currentstock.intraday_values[1]),
+		                Double.parseDouble(currentstock.intraday_values[2]),
+		                Double.parseDouble(currentstock.intraday_values[3]),
+		                Double.parseDouble(currentstock.intraday_values[4])
+		        };
+
+		        
+		        double minY = Arrays.stream(yValues).min().getAsDouble();
+		        double maxY = Arrays.stream(yValues).max().getAsDouble();
+
+		        yAxis.setRange(minY, maxY);
+		        
+		        panel_1.setChart(chart);
+		        
+			}
+		});
+		
+		JButton DailyButton = new JButton("Daily Graph");
+		DailyButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				data.clear();
+		        data.addValue(Double.parseDouble(currentstock.daily_values[0]), "Stock Symbol", currentstock.daily_dates[0]);
+		        data.addValue(Double.parseDouble(currentstock.daily_values[1]), "Stock Symbol", currentstock.daily_dates[1]);
+		        data.addValue(Double.parseDouble(currentstock.daily_values[2]), "Stock Symbol", currentstock.daily_dates[2]);
+		        data.addValue(Double.parseDouble(currentstock.daily_values[3]), "Stock Symbol", currentstock.daily_dates[3]);
+		        data.addValue(Double.parseDouble(currentstock.daily_values[4]), "Stock Symbol", currentstock.daily_dates[4]);
+		       
+		    
+		        JFreeChart chart = ChartFactory.createLineChart(
+		                "Stock data (Daily)",  	//graph title
+		                "Stock date",  	//x value title      
+		                "Stock Price", 	// y value title   
+		                data,        	//data being displayed
+		                PlotOrientation.VERTICAL,
+		                true,
+		                true,
+		                false
+		        );
+		        
+		        ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
+		        double[] yValues = new double[] {
+		                Double.parseDouble(currentstock.daily_values[0]),
+		                Double.parseDouble(currentstock.daily_values[1]),
+		                Double.parseDouble(currentstock.daily_values[2]),
+		                Double.parseDouble(currentstock.daily_values[3]),
+		                Double.parseDouble(currentstock.daily_values[4])
+		        };
+
+		        
+		        double minY = Arrays.stream(yValues).min().getAsDouble();
+		        double maxY = Arrays.stream(yValues).max().getAsDouble();
+
+		        yAxis.setRange(minY, maxY);
+		        
+		        panel_1.setChart(chart);
+			}
+		});
+		
+		JButton MonthlyButton = new JButton("Monthly Graph");
+		MonthlyButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				data.clear();
+		        data.addValue(Double.parseDouble(currentstock.monthly_values[0]), "Stock Symbol", currentstock.monthly_dates[0]);
+		        data.addValue(Double.parseDouble(currentstock.monthly_values[1]), "Stock Symbol", currentstock.monthly_dates[1]);
+		        data.addValue(Double.parseDouble(currentstock.monthly_values[2]), "Stock Symbol", currentstock.monthly_dates[2]);
+		        data.addValue(Double.parseDouble(currentstock.monthly_values[3]), "Stock Symbol", currentstock.monthly_dates[3]);
+		        data.addValue(Double.parseDouble(currentstock.monthly_values[4]), "Stock Symbol", currentstock.monthly_dates[4]);
+		       
+		    
+		        JFreeChart chart = ChartFactory.createLineChart(
+		                "Stock data (Monthly)",  	//graph title
+		                "Stock date",  	//x value title      
+		                "Stock Price", 	// y value title   
+		                data,        	//data being displayed
+		                PlotOrientation.VERTICAL,
+		                true,
+		                true,
+		                false
+		        );
+		        
+		        ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
+		        double[] yValues = new double[] {
+		                Double.parseDouble(currentstock.monthly_values[0]),
+		                Double.parseDouble(currentstock.monthly_values[1]),
+		                Double.parseDouble(currentstock.monthly_values[2]),
+		                Double.parseDouble(currentstock.monthly_values[3]),
+		                Double.parseDouble(currentstock.monthly_values[4])
+		        };
+
+		        
+		        double minY = Arrays.stream(yValues).min().getAsDouble();
+		        double maxY = Arrays.stream(yValues).max().getAsDouble();
+
+		        yAxis.setRange(minY, maxY);
+		        
+		        panel_1.setChart(chart);
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
-						.addComponent(TitleLabel, GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
+						.addComponent(TitleLabel, GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addComponent(asklabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
@@ -168,33 +330,42 @@ public class StockViewPage extends JFrame{
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(VolumeLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+									.addComponent(VolumeLabel, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(PERationLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+									.addComponent(PERationLabel, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(ExDivDateLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+									.addComponent(ExDivDateLabel, GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(dayRangeLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+									.addComponent(dayRangeLabel, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(MarketCapLabel, GroupLayout.PREFERRED_SIZE, 159, Short.MAX_VALUE)
+									.addComponent(MarketCapLabel, GroupLayout.PREFERRED_SIZE, 180, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(EarningsDateLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+									.addComponent(EarningsDateLabel, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(weekRangeLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+									.addComponent(weekRangeLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(BetaLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+									.addComponent(BetaLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(ForwardDivYieldLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+									.addComponent(ForwardDivYieldLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(74)
-											.addComponent(BackButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-										.addComponent(AvgVolumeLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+											.addComponent(BackButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+										.addComponent(AvgVolumeLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(EPSTTMRatio, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(TargetEstLabel, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)))
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(EPSTTMRatio, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(TargetEstLabel, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(IntraDayButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(DailyButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(MonthlyButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+											.addGap(33)))))
 							.addGap(8)))
 					.addContainerGap())
 		);
@@ -231,7 +402,11 @@ public class StockViewPage extends JFrame{
 						.addComponent(AvgVolumeLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
 						.addComponent(asklabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
 					.addGap(18)
-					.addComponent(BackButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(BackButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(IntraDayButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(DailyButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(MonthlyButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(12))
 		);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);

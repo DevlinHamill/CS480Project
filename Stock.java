@@ -24,5 +24,11 @@ public class Stock {
 		public String Ex_Dividend_Date;
 		public String y_Target_Est;
 		public String Stock_chart;
-
+		public String[] intraday_dates = new String[5];
+		public String[] intraday_values = new String[5];
+		public String[] daily_dates = new String[5];
+		public String[] daily_values = new String[5];
+		public String[] monthly_dates = new String[5];
+		public String[] monthly_values = new String[5];
+		
 }

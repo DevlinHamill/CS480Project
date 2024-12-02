@@ -29,6 +29,7 @@ public class popup extends JFrame{
 	public static boolean isadding;
 	public static popup window;
 	public static JLabel errorLabel;
+	//public static Stock[] stocklist = new Stock[10];
 	private JFrame frame;
 	
 
@@ -68,7 +69,7 @@ public class popup extends JFrame{
 	
 	public boolean CheckInput(String input) {
 		boolean condition = true;
-		
+		/*
 		for(int i = 0; i < input.length(); i++) {
 			char currentCharacter = input.charAt(i);
 			
@@ -82,6 +83,7 @@ public class popup extends JFrame{
 			}
 			
 		}
+		*/
 		
 		if(!AlphaVantageApiHelper.stockExists(input)) {
 			condition = false; 
@@ -90,6 +92,22 @@ public class popup extends JFrame{
 			errorLabel.setText(errorDisplay);
 			errorLabel.setVisible(true);
 			return condition;
+		}
+		
+		for(int i = 0; i < 10; i++) {
+			
+			if(home.stocklist[i].StockName != null) {
+				
+				if(home.stocklist[i].Stocksymbol.equals(input)) {
+					
+					condition = false;
+					String errorStr = "Pre-Existing\nStock Symbol!";
+					String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
+					errorLabel.setText(errorDisplay);
+					errorLabel.setVisible(true);
+					return condition;
+				}
+			}
 		}
 		
 		return condition;

@@ -88,6 +88,43 @@ public class HomeScreen {
 		stocklist[number].Ex_Dividend_Date = StockViewpage.get(Constants.EX_DIVIDEND_DATE);
 		stocklist[number].y_Target_Est = StockViewpage.get(Constants.Y_TARGET_EST);
 		
+		stocklist[number].intraday_dates[0] = StockViewpage.get(Constants.INTRADAY_DATE_ONE);
+		stocklist[number].intraday_dates[1] = StockViewpage.get(Constants.INTRADAY_DATE_TWO);
+		stocklist[number].intraday_dates[2] = StockViewpage.get(Constants.INTRADAY_DATE_THREE);
+		stocklist[number].intraday_dates[3] = StockViewpage.get(Constants.INTRADAY_DATE_FOUR);
+		stocklist[number].intraday_dates[4] = StockViewpage.get(Constants.INTRADAY_DATE_FIVE);
+		
+		stocklist[number].intraday_values[0] = StockViewpage.get(Constants.INTRADAY_VALUE_ONE);
+		stocklist[number].intraday_values[1] = StockViewpage.get(Constants.INTRADAY_VALUE_TWO);
+		stocklist[number].intraday_values[2] = StockViewpage.get(Constants.INTRADAY_VALUE_THREE);
+		stocklist[number].intraday_values[3] = StockViewpage.get(Constants.INTRADAY_VALUE_FOUR);
+		stocklist[number].intraday_values[4] = StockViewpage.get(Constants.INTRADAY_VALUE_FIVE);
+		
+		stocklist[number].daily_dates[0] = StockViewpage.get(Constants.DAILY_DATE_ONE);
+		stocklist[number].daily_dates[1] = StockViewpage.get(Constants.DAILY_DATE_TWO);
+		stocklist[number].daily_dates[2] = StockViewpage.get(Constants.DAILY_DATE_THREE);
+		stocklist[number].daily_dates[3] = StockViewpage.get(Constants.DAILY_DATE_FOUR);
+		stocklist[number].daily_dates[4] = StockViewpage.get(Constants.DAILY_DATE_FIVE);
+		
+		stocklist[number].daily_values[0] = StockViewpage.get(Constants.DAILY_VALUE_ONE);
+		stocklist[number].daily_values[1] = StockViewpage.get(Constants.DAILY_VALUE_TWO);
+		stocklist[number].daily_values[2] = StockViewpage.get(Constants.DAILY_VALUE_THREE);
+		stocklist[number].daily_values[3] = StockViewpage.get(Constants.DAILY_VALUE_FOUR);
+		stocklist[number].daily_values[4] = StockViewpage.get(Constants.DAILY_VALUE_FIVE);
+		
+		stocklist[number].monthly_dates[0] = StockViewpage.get(Constants.MONTHLY_DATE_ONE);
+		stocklist[number].monthly_dates[1] = StockViewpage.get(Constants.MONTHLY_DATE_TWO);
+		stocklist[number].monthly_dates[2] = StockViewpage.get(Constants.MONTHLY_DATE_THREE);
+		stocklist[number].monthly_dates[3] = StockViewpage.get(Constants.MONTHLY_DATE_FOUR);
+		stocklist[number].monthly_dates[4] = StockViewpage.get(Constants.MONTHLY_DATE_FIVE);
+		
+		stocklist[number].monthly_values[0] = StockViewpage.get(Constants.MONTHLY_VALUE_ONE);
+		stocklist[number].monthly_values[1] = StockViewpage.get(Constants.MONTHLY_VALUE_TWO);
+		stocklist[number].monthly_values[2] = StockViewpage.get(Constants.MONTHLY_VALUE_THREE);
+		stocklist[number].monthly_values[3] = StockViewpage.get(Constants.MONTHLY_VALUE_FOUR);
+		stocklist[number].monthly_values[4] = StockViewpage.get(Constants.MONTHLY_VALUE_FIVE);
+		
+		
 	}
 	
 	public Stock getStockData(int number) {
@@ -622,7 +659,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				StockViewPage viewpage = new StockViewPage(home, 6);
+				StockViewPage viewpage = new StockViewPage(home, 5);
 				viewpage.main(null);
 			}
 		});
@@ -634,7 +671,7 @@ public class HomeScreen {
 		stockviewbutton7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 7);
+				StockViewPage viewpage = new StockViewPage(home, 6);
 				viewpage.main(null);
 			}
 		});
@@ -646,7 +683,7 @@ public class HomeScreen {
 		stockviewbutton8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 8);
+				StockViewPage viewpage = new StockViewPage(home, 7);
 				viewpage.main(null);
 			}
 		});
@@ -658,7 +695,7 @@ public class HomeScreen {
 		stockviewbutton9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 9);
+				StockViewPage viewpage = new StockViewPage(home, 8);
 				viewpage.main(null);
 			}
 		});
@@ -670,7 +707,7 @@ public class HomeScreen {
 		stockviewbutton10.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 10);
+				StockViewPage viewpage = new StockViewPage(home, 9);
 				viewpage.main(null);
 			}
 		});
@@ -693,7 +730,7 @@ public class HomeScreen {
 		stockviewbutton1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 1);
+				StockViewPage viewpage = new StockViewPage(home, 0);
 				viewpage.main(null);
 			}
 		});
@@ -714,7 +751,7 @@ public class HomeScreen {
 		stockviewbutton2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 2);
+				StockViewPage viewpage = new StockViewPage(home, 1);
 				viewpage.main(null);
 			}
 		});
@@ -726,7 +763,7 @@ public class HomeScreen {
 		stockviewbutton3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 3);
+				StockViewPage viewpage = new StockViewPage(home, 2);
 				viewpage.main(null);
 			}
 		});
@@ -738,7 +775,7 @@ public class HomeScreen {
 		stockviewbutton4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 4);
+				StockViewPage viewpage = new StockViewPage(home, 3);
 				viewpage.main(null);
 			}
 		});
@@ -750,7 +787,7 @@ public class HomeScreen {
 		stockviewbutton5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StockViewPage viewpage = new StockViewPage(home, 5);
+				StockViewPage viewpage = new StockViewPage(home, 4);
 				viewpage.main(null);
 			}
 		});
