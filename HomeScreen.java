@@ -62,6 +62,70 @@ public class HomeScreen {
 		initialize();
 	}
 	
+	public void removeData(int number) {
+		number = number - 1;
+		stocklist[number].Currentstockprice = "";
+		stocklist[number].Stocksymbol = "";
+		stocklist[number].Changefrompreviousclose = "";
+		stocklist[number].ChangefrompreviousclosePrecentage = "";
+		
+		stocklist[number].StockName = "";
+		stocklist[number].Previous_Close = "";
+		stocklist[number].Open = "";
+		stocklist[number].Bid = "";
+		stocklist[number].Ask = "";
+		stocklist[number].DaysRange = "";
+		stocklist[number].FiftyTwo_WeekRange = "";
+		stocklist[number].Volume = "";
+		stocklist[number].AvgVolume = "";
+		stocklist[number].MarketCap_intraday = "";
+		stocklist[number].Beta_5Y_Monthly = "";
+		stocklist[number].PERatio_TTM = "";
+		stocklist[number].EPS_TTM = "";
+		stocklist[number].Earnings_Date = "";
+		stocklist[number].Forward_Dividend_and_Yield = "";
+		stocklist[number].Ex_Dividend_Date = "";
+		stocklist[number].y_Target_Est = "";
+		
+		stocklist[number].intraday_dates[0] = "";
+		stocklist[number].intraday_dates[1] = "";
+		stocklist[number].intraday_dates[2] = "";
+		stocklist[number].intraday_dates[3] = "";
+		stocklist[number].intraday_dates[4] = "";
+		
+		stocklist[number].intraday_values[0] = "";
+		stocklist[number].intraday_values[1] = "";
+		stocklist[number].intraday_values[2] = "";
+		stocklist[number].intraday_values[3] = "";
+		stocklist[number].intraday_values[4] = "";
+		
+		stocklist[number].daily_dates[0] = "";
+		stocklist[number].daily_dates[1] = "";
+		stocklist[number].daily_dates[2] = "";
+		stocklist[number].daily_dates[3] = "";
+		stocklist[number].daily_dates[4] = "";
+		
+		stocklist[number].daily_values[0] = "";
+		stocklist[number].daily_values[1] = "";
+		stocklist[number].daily_values[2] = "";
+		stocklist[number].daily_values[3] = "";
+		stocklist[number].daily_values[4] = "";
+		
+		stocklist[number].monthly_dates[0] = "";
+		stocklist[number].monthly_dates[1] = "";
+		stocklist[number].monthly_dates[2] = "";
+		stocklist[number].monthly_dates[3] = "";
+		stocklist[number].monthly_dates[4] = "";
+		
+		stocklist[number].monthly_values[0] = "";
+		stocklist[number].monthly_values[1] = "";
+		stocklist[number].monthly_values[2] = "";
+		stocklist[number].monthly_values[3] = "";
+		stocklist[number].monthly_values[4] = "";
+		
+		
+	}
+	
 	public void storeStockData(HashMap<String,String> homepage, HashMap<String, String> StockViewpage, int number) {
 		
 		number = number - 1;
@@ -317,6 +381,7 @@ public class HomeScreen {
 				addbutton1.setVisible(true);
 				editbutton1.setVisible(false);
 				removebutton1.setVisible(false);
+				removeData(1);
 			}
 		});
 		removebutton1.setIcon(new ImageIcon(removeimage));
@@ -333,6 +398,7 @@ public class HomeScreen {
 				addbutton2.setVisible(true);
 				editbutton2.setVisible(false);
 				removebutton2.setVisible(false);
+				removeData(2);
 			}
 		});
 		removebutton2.setIcon(new ImageIcon(removeimage));
@@ -349,6 +415,7 @@ public class HomeScreen {
 				addbutton3.setVisible(true);
 				editbutton3.setVisible(false);
 				removebutton3.setVisible(false);
+				removeData(3);
 				
 			}
 		});
@@ -366,6 +433,7 @@ public class HomeScreen {
 				addbutton4.setVisible(true);
 				editbutton4.setVisible(false);
 				removebutton4.setVisible(false);
+				removeData(4);
 			}
 		});
 		removebutton4.setIcon(new ImageIcon(removeimage));
@@ -382,6 +450,7 @@ public class HomeScreen {
 				addbutton5.setVisible(true);
 				editbutton5.setVisible(false);
 				removebutton5.setVisible(false);
+				removeData(5);
 			}
 		});
 		removebutton5.setIcon(new ImageIcon(removeimage));
@@ -398,6 +467,7 @@ public class HomeScreen {
 				addbutton6.setVisible(true);
 				editbutton6.setVisible(false);
 				removebutton6.setVisible(false);
+				removeData(6);
 			}
 		});
 		removebutton6.setIcon(new ImageIcon(removeimage));
@@ -414,6 +484,7 @@ public class HomeScreen {
 				addbutton7.setVisible(true);
 				editbutton7.setVisible(false);
 				removebutton7.setVisible(false);
+				removeData(7);
 			}
 		});
 		removebutton7.setIcon(new ImageIcon(removeimage));
@@ -430,6 +501,7 @@ public class HomeScreen {
 				addbutton8.setVisible(true);
 				editbutton8.setVisible(false);
 				removebutton8.setVisible(false);
+				removeData(8);
 			}
 		});
 		removebutton8.setIcon(new ImageIcon(removeimage));
@@ -446,6 +518,7 @@ public class HomeScreen {
 				addbutton9.setVisible(true);
 				editbutton9.setVisible(false);
 				removebutton9.setVisible(false);
+				removeData(9);
 			}
 		});
 		removebutton9.setIcon(new ImageIcon(removeimage));
@@ -462,6 +535,7 @@ public class HomeScreen {
 				addbutton10.setVisible(true);
 				editbutton10.setVisible(false);
 				removebutton10.setVisible(false);
+				removeData(10);
 			}
 		});
 		removebutton10.setIcon(new ImageIcon(removeimage));
