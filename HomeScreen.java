@@ -25,10 +25,10 @@ public class HomeScreen {
 	public static JButton editbutton1, editbutton2, editbutton3, editbutton4,editbutton5, editbutton6, editbutton7, editbutton8, editbutton9, editbutton10;
 	public static JButton removebutton1, removebutton2, removebutton3, removebutton4, removebutton5, removebutton6, removebutton7, removebutton8, removebutton9, removebutton10;
 
-	JButton[] stockViewButtons = new JButton[10];
-	JButton[] addButtons = new JButton[10];
-	JButton[] editButtons = new JButton[10];
-	JButton[] removeButtons = new JButton[10];
+	public static JButton[] stockViewButtons = new JButton[10];
+	public static JButton[] addButtons = new JButton[10];
+	public static JButton[] editButtons = new JButton[10];
+	public static JButton[] removeButtons = new JButton[10];
 
 	public static HomeScreen home;
 	public Stock[] stocklist = new Stock[10];
@@ -59,7 +59,7 @@ public class HomeScreen {
 	 */
 	public HomeScreen() {
 		initialize();
-		updateButtonFromLayout();
+		updateButtonsFromLayout();
 	}
 
 	private void removeData(int number) {
@@ -126,8 +126,74 @@ public class HomeScreen {
 		saver.removeStockAtPosition(number);
 	}
 
-	public void storeStockData(HashMap<String,String> homepage, HashMap<String, String> StockViewpage, int number) {
+	public void storeHomeScreenData(HashMap<String,String> homePageData, int number) {
+		number--;
+		stocklist[number].Currentstockprice = homePageData.get(Constants.CURRENT_VALUE);
+		stocklist[number].Stocksymbol = homePageData.get(Constants.STOCK_SYMBOL);
+		stocklist[number].Changefrompreviousclose = homePageData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE);
+		stocklist[number].ChangefrompreviousclosePrecentage = homePageData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE);
+	}
 
+	public void storeStockViewData(HashMap<String,String> stockViewData, int number) {
+		number--;
+		stocklist[number].StockName = stockViewData.get(Constants.NAME);
+		stocklist[number].Previous_Close = stockViewData.get(Constants.PREVIOUS_CLOSE);
+		stocklist[number].Open = stockViewData.get(Constants.OPEN);
+		stocklist[number].Bid = stockViewData.get(Constants.BID);
+		stocklist[number].Ask = stockViewData.get(Constants.ASK);
+		stocklist[number].DaysRange = stockViewData.get(Constants.DAYSRANGE);
+		stocklist[number].FiftyTwo_WeekRange = stockViewData.get(Constants.FIFTYTWO_WEEKRANGE);
+		stocklist[number].Volume = stockViewData.get(Constants.VOLUME);
+		stocklist[number].AvgVolume = stockViewData.get(Constants.AVERAGE_VOLUME);
+		stocklist[number].MarketCap_intraday = stockViewData.get(Constants.MARKETCAP_INTRADAY);
+		stocklist[number].Beta_5Y_Monthly = stockViewData.get(Constants.BETA_5Y_MONTHLY);
+		stocklist[number].PERatio_TTM = stockViewData.get(Constants.PE_RATION_TTM);
+		stocklist[number].EPS_TTM = stockViewData.get(Constants.EPS_TTM);
+		stocklist[number].Earnings_Date = stockViewData.get(Constants.EARNINGS_DATE);
+		stocklist[number].Forward_Dividend_and_Yield = stockViewData.get(Constants.FORWARD_DIVIDEND_AND_YIELD);
+		stocklist[number].Ex_Dividend_Date = stockViewData.get(Constants.EX_DIVIDEND_DATE);
+		stocklist[number].y_Target_Est = stockViewData.get(Constants.Y_TARGET_EST);
+
+		stocklist[number].intraday_dates[0] = stockViewData.get(Constants.INTRADAY_DATE_ONE);
+		stocklist[number].intraday_dates[1] = stockViewData.get(Constants.INTRADAY_DATE_TWO);
+		stocklist[number].intraday_dates[2] = stockViewData.get(Constants.INTRADAY_DATE_THREE);
+		stocklist[number].intraday_dates[3] = stockViewData.get(Constants.INTRADAY_DATE_FOUR);
+		stocklist[number].intraday_dates[4] = stockViewData.get(Constants.INTRADAY_DATE_FIVE);
+
+		stocklist[number].intraday_values[0] = stockViewData.get(Constants.INTRADAY_VALUE_ONE);
+		stocklist[number].intraday_values[1] = stockViewData.get(Constants.INTRADAY_VALUE_TWO);
+		stocklist[number].intraday_values[2] = stockViewData.get(Constants.INTRADAY_VALUE_THREE);
+		stocklist[number].intraday_values[3] = stockViewData.get(Constants.INTRADAY_VALUE_FOUR);
+		stocklist[number].intraday_values[4] = stockViewData.get(Constants.INTRADAY_VALUE_FIVE);
+
+		stocklist[number].daily_dates[0] = stockViewData.get(Constants.DAILY_DATE_ONE);
+		stocklist[number].daily_dates[1] = stockViewData.get(Constants.DAILY_DATE_TWO);
+		stocklist[number].daily_dates[2] = stockViewData.get(Constants.DAILY_DATE_THREE);
+		stocklist[number].daily_dates[3] = stockViewData.get(Constants.DAILY_DATE_FOUR);
+		stocklist[number].daily_dates[4] = stockViewData.get(Constants.DAILY_DATE_FIVE);
+
+		stocklist[number].daily_values[0] = stockViewData.get(Constants.DAILY_VALUE_ONE);
+		stocklist[number].daily_values[1] = stockViewData.get(Constants.DAILY_VALUE_TWO);
+		stocklist[number].daily_values[2] = stockViewData.get(Constants.DAILY_VALUE_THREE);
+		stocklist[number].daily_values[3] = stockViewData.get(Constants.DAILY_VALUE_FOUR);
+		stocklist[number].daily_values[4] = stockViewData.get(Constants.DAILY_VALUE_FIVE);
+
+		stocklist[number].monthly_dates[0] = stockViewData.get(Constants.MONTHLY_DATE_ONE);
+		stocklist[number].monthly_dates[1] = stockViewData.get(Constants.MONTHLY_DATE_TWO);
+		stocklist[number].monthly_dates[2] = stockViewData.get(Constants.MONTHLY_DATE_THREE);
+		stocklist[number].monthly_dates[3] = stockViewData.get(Constants.MONTHLY_DATE_FOUR);
+		stocklist[number].monthly_dates[4] = stockViewData.get(Constants.MONTHLY_DATE_FIVE);
+
+		stocklist[number].monthly_values[0] = stockViewData.get(Constants.MONTHLY_VALUE_ONE);
+		stocklist[number].monthly_values[1] = stockViewData.get(Constants.MONTHLY_VALUE_TWO);
+		stocklist[number].monthly_values[2] = stockViewData.get(Constants.MONTHLY_VALUE_THREE);
+		stocklist[number].monthly_values[3] = stockViewData.get(Constants.MONTHLY_VALUE_FOUR);
+		stocklist[number].monthly_values[4] = stockViewData.get(Constants.MONTHLY_VALUE_FIVE);
+
+		saver.addStockAtPosition(stocklist[number], number);
+	}
+
+	public void storeStockData(HashMap<String,String> homepage, HashMap<String, String> StockViewpage, int number) {
 		number = number - 1;
 		stocklist[number].Currentstockprice = homepage.get(Constants.CURRENT_VALUE);
 		stocklist[number].Stocksymbol = homepage.get(Constants.STOCK_SYMBOL);
@@ -205,30 +271,23 @@ public class HomeScreen {
 		}else if(number == 6) {
 			UpdateButtonText(stockviewbutton6, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
 		}else if(number == 7) {
-			UpdateButtonText(stockviewbutton2, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
+			UpdateButtonText(stockviewbutton7, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
 		}else if(number == 8) {
-			UpdateButtonText(stockviewbutton2, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
+			UpdateButtonText(stockviewbutton8, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
 		}else if(number == 9) {
-			UpdateButtonText(stockviewbutton2, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
+			UpdateButtonText(stockviewbutton9, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
 		}else if(number == 10) {
-			UpdateButtonText(stockviewbutton2, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
+			UpdateButtonText(stockviewbutton10, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
 		}
 	}
 
 	private void refreshOnClick() {
-		AlphaVantageApiHelper apiConnection = new AlphaVantageApiHelper();
-
 		for(int i=0; i < 10; i++) {
-
 			if(!(stocklist[i].Stocksymbol == null)) {
-				
 				System.out.println("Refreshing stock: "+stocklist[i].Stocksymbol);
-				HashMap<String, String> Homepage = apiConnection.getHomeScreenData(stocklist[i].Stocksymbol);
-				HashMap<String, String> StockViewpage = apiConnection.getStockViewData(stocklist[i].Stocksymbol);
-				storeStockData(Homepage, StockViewpage, i+1);
-				updateButton(i+1);
-				
-			}else {
+				updateHomeScreenButton(i + 1);
+			}
+			else {
 				continue;
 			}
 
@@ -263,8 +322,8 @@ public class HomeScreen {
 			stocklist[i] = new Stock();
 		}
 
-		JPanel panel = new JPanel();
-		JPanel panel_1 = new JPanel();
+		JPanel leftPanel = new JPanel();
+		JPanel rightPanel = new JPanel();
 		Image addimage = new ImageIcon(this.getClass().getResource("/addimage_2.png")).getImage();
 
 		/*
@@ -753,28 +812,24 @@ public class HomeScreen {
 		groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+								.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
 								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+								.addComponent(rightPanel, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
 								.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 				groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addComponent(rightPanel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
 		);
 
-
-		/*
-		 * stock view buttons
-		 */
 		stockviewbutton6 = new JButton("         New button");
 		stockviewbutton6.setHorizontalAlignment(SwingConstants.LEFT);
 		stockviewbutton6.setBounds(10, 10, 213, 89);
 		stockviewbutton6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				updateStockViewData(6);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 5);
 				viewpage.main(null);
@@ -788,6 +843,7 @@ public class HomeScreen {
 		stockviewbutton7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(7);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 6);
 				viewpage.main(null);
@@ -800,6 +856,7 @@ public class HomeScreen {
 		stockviewbutton8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(8);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 7);
 				viewpage.main(null);
@@ -812,6 +869,7 @@ public class HomeScreen {
 		stockviewbutton9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(9);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 8);
 				viewpage.main(null);
@@ -824,33 +882,34 @@ public class HomeScreen {
 		stockviewbutton10.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(10);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 9);
 				viewpage.main(null);
 			}
 		});
 
-		panel_1.setLayout(null);
-		panel_1.add(addbutton7);
-		panel_1.add(removebutton7);
-		panel_1.add(editbutton7);
-		panel_1.add(addbutton8);
-		panel_1.add(removebutton8);
-		panel_1.add(editbutton8);
-		panel_1.add(addbutton9);
-		panel_1.add(removebutton9);
-		panel_1.add(editbutton9);
-		panel_1.add(addbutton10);
-		panel_1.add(removebutton10);
-		panel_1.add(editbutton10);
-		panel_1.add(addbutton6);
-		panel_1.add(removebutton6);
-		panel_1.add(editbutton6);
-		panel_1.add(stockviewbutton6);
-		panel_1.add(stockviewbutton7);
-		panel_1.add(stockviewbutton8);
-		panel_1.add(stockviewbutton9);
-		panel_1.add(stockviewbutton10);
+		rightPanel.setLayout(null);
+		rightPanel.add(addbutton7);
+		rightPanel.add(removebutton7);
+		rightPanel.add(editbutton7);
+		rightPanel.add(addbutton8);
+		rightPanel.add(removebutton8);
+		rightPanel.add(editbutton8);
+		rightPanel.add(addbutton9);
+		rightPanel.add(removebutton9);
+		rightPanel.add(editbutton9);
+		rightPanel.add(addbutton10);
+		rightPanel.add(removebutton10);
+		rightPanel.add(editbutton10);
+		rightPanel.add(addbutton6);
+		rightPanel.add(removebutton6);
+		rightPanel.add(editbutton6);
+		rightPanel.add(stockviewbutton6);
+		rightPanel.add(stockviewbutton7);
+		rightPanel.add(stockviewbutton8);
+		rightPanel.add(stockviewbutton9);
+		rightPanel.add(stockviewbutton10);
 
 		/*
 		 * stock view buttons
@@ -861,6 +920,7 @@ public class HomeScreen {
 		stockviewbutton1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(1);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 0);
 				viewpage.main(null);
@@ -873,6 +933,7 @@ public class HomeScreen {
 		stockviewbutton2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(2);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 1);
 				viewpage.main(null);
@@ -885,6 +946,7 @@ public class HomeScreen {
 		stockviewbutton3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(3);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 2);
 				viewpage.main(null);
@@ -897,6 +959,7 @@ public class HomeScreen {
 		stockviewbutton4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(4);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 3);
 				viewpage.main(null);
@@ -909,33 +972,35 @@ public class HomeScreen {
 		stockviewbutton5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				updateStockViewData(5);
 				refreshOnClick();
 				StockViewPage viewpage = new StockViewPage(home, 4);
 				viewpage.main(null);
 			}
 		});
 
-		panel.setLayout(null);
-		panel.add(addbutton2);
-		panel.add(removebutton2);
-		panel.add(editbutton2);
-		panel.add(addbutton1);
-		panel.add(removebutton1);
-		panel.add(editbutton1);
-		panel.add(stockviewbutton1);
-		panel.add(addbutton4);
-		panel.add(removebutton4);
-		panel.add(editbutton4);
-		panel.add(addbutton5);
-		panel.add(removebutton5);
-		panel.add(editbutton5);
-		panel.add(addbutton3);
-		panel.add(removebutton3);
-		panel.add(editbutton3);
-		panel.add(stockviewbutton2);
-		panel.add(stockviewbutton3);
-		panel.add(stockviewbutton4);
-		panel.add(stockviewbutton5);
+
+		leftPanel.setLayout(null);
+		leftPanel.add(addbutton2);
+		leftPanel.add(removebutton2);
+		leftPanel.add(editbutton2);
+		leftPanel.add(addbutton1);
+		leftPanel.add(removebutton1);
+		leftPanel.add(editbutton1);
+		leftPanel.add(stockviewbutton1);
+		leftPanel.add(addbutton4);
+		leftPanel.add(removebutton4);
+		leftPanel.add(editbutton4);
+		leftPanel.add(addbutton5);
+		leftPanel.add(removebutton5);
+		leftPanel.add(editbutton5);
+		leftPanel.add(addbutton3);
+		leftPanel.add(removebutton3);
+		leftPanel.add(editbutton3);
+		leftPanel.add(stockviewbutton2);
+		leftPanel.add(stockviewbutton3);
+		leftPanel.add(stockviewbutton4);
+		leftPanel.add(stockviewbutton5);
 		frame.getContentPane().setLayout(groupLayout);
 
 		stockViewButtons[0] = stockviewbutton1;
@@ -983,8 +1048,24 @@ public class HomeScreen {
 		removeButtons[9] = removebutton10;
 	}
 
-	public void updateButtonFromLayout() {
-		//TODO: Add functionality to save new stocks when a new stock is added or edited or removed
+	public void updateStockViewData(int num) {
+		HashMap<String, String> stockViewData = AlphaVantageApiHelper.getStockViewData(stocklist[num - 1].Stocksymbol);
+		storeStockViewData(stockViewData, num);
+	}
+
+	public void updateHomeScreenButton(int num, String symbol) {
+		stocklist[num - 1].setStocksymbol(symbol);
+		updateHomeScreenButton(num);
+	}
+
+	public void updateHomeScreenButton(int num) {
+		if(debug) System.out.println("Updating button " + num + " with symbol " + stocklist[num - 1].getStocksymbol());
+		HashMap<String, String> homeScreenData = AlphaVantageApiHelper.getHomeScreenData(stocklist[num - 1].getStocksymbol());
+		storeHomeScreenData(homeScreenData, num);
+		updateButton(num);
+	}
+
+	public void updateButtonsFromLayout() {
 		if(debug) System.out.println("Running HomeScreen.updateButtonFromLayout");
 		if(!hasLoaded) {
 			hasLoaded = true;
@@ -993,17 +1074,7 @@ public class HomeScreen {
 
 				if(temp.getStocksymbol() != null) {
 					if(debug) System.out.println("Loading data for: " + temp.getStocksymbol() + " at position: " + (i + 1));
-
-					HashMap<String, String> StockViewdata = AlphaVantageApiHelper.getStockViewData(temp.getStocksymbol());
-					HashMap<String, String> homeScreenData = AlphaVantageApiHelper.getHomeScreenData(temp.getStocksymbol());
-
-					UpdateButtonText(stockViewButtons[i],
-							temp.getStocksymbol(),
-							homeScreenData.get(Constants.CURRENT_VALUE),
-							homeScreenData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE),
-							homeScreenData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE));
-
-					storeStockData(homeScreenData, StockViewdata, i + 1);
+					updateHomeScreenButton(i + 1, temp.getStocksymbol());
 
 					addButtons[i].setVisible(false);
 					editButtons[i].setVisible(true);

@@ -44,6 +44,10 @@ public class Stock {
 		return Stocksymbol;
 	}
 
+	public void setStocksymbol(String stocksymbol) {
+		Stocksymbol = stocksymbol;
+	}
+
 	public String toString() {
 		return Stocksymbol;
 	}
