@@ -1,6 +1,7 @@
 package test; 
 
 public class Constants {
+	public static final String DEFAULT_FILE_PATH = "layout.txt";
     public static final String STOCK_SYMBOL = "STOCK_SYMBOL";
     public static final String CURRENT_VALUE = "CURRENT_VALUE";
     public static final String PREVIOUS_CLOSE = "PREVIOUS_CLOSE";
