@@ -70,10 +70,31 @@ public class popup extends JFrame{
 	public boolean CheckInput(String input) {
 		boolean condition = true;
 		
-		for(int i = 0; i < input.length(); i++) {
-			char currentCharacter = input.charAt(i);
-
-			if(( Character.isDigit(currentCharacter) ) || ( !Character.isLetterOrDigit(currentCharacter) )) {
+		if(input.isEmpty()) {
+			condition = false;
+			String errorStr = "No provided\nStock Symbol!";
+			String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
+			errorLabel.setText(errorDisplay);
+			errorLabel.setVisible(true);
+			return condition;		
+		}else {
+		
+			for(int i = 0; i < input.length(); i++) {
+				char currentCharacter = input.charAt(i);
+	
+				if(( Character.isDigit(currentCharacter) ) || ( !Character.isLetterOrDigit(currentCharacter) )) {
+					condition = false; 
+					String errorStr = "Stock symbol\ndoesnt exist!";
+					String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
+					errorLabel.setText(errorDisplay);
+					errorLabel.setVisible(true);
+					return condition;
+				}
+	
+			}
+	
+			
+			if(!AlphaVantageApiHelper.stockExists(input)) {
 				condition = false; 
 				String errorStr = "Stock symbol\ndoesnt exist!";
 				String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
@@ -81,35 +102,22 @@ public class popup extends JFrame{
 				errorLabel.setVisible(true);
 				return condition;
 			}
-
-		}
-
-		
-		if(!AlphaVantageApiHelper.stockExists(input)) {
-			condition = false; 
-			String errorStr = "Stock symbol\ndoesnt exist!";
-			String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
-			errorLabel.setText(errorDisplay);
-			errorLabel.setVisible(true);
-			return condition;
-		}
-		
-		for(int i = 0; i < 10; i++) {
 			
-			if(home.stocklist[i].StockName == null || home.stocklist[i] == null) {
-				continue;
-			}
+			for(int i = 0; i < 10; i++) {
 				
-			if(input.equals(home.stocklist[i].Stocksymbol)) {
+				if(input.equals(home.stocklist[i].Stocksymbol)) {
+					
+					condition = false;
+					String errorStr = "Pre-Existing\nStock Symbol!";
+					String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
+					errorLabel.setText(errorDisplay);
+					errorLabel.setVisible(true);
+					return condition;
+					
+				}
 				
-				condition = false;
-				String errorStr = "Pre-Existing\nStock Symbol!";
-				String errorDisplay = String.format("<html><span style='color:red;'>%s</span>", errorStr);
-				errorLabel.setText(errorDisplay);
-				errorLabel.setVisible(true);
-				return condition;
+				
 			}
-			
 		}
 		
 		return condition;
