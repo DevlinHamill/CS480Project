@@ -51,4 +51,5 @@ public class Stock {
 	public void updateData() {
 
 	}
+
 }

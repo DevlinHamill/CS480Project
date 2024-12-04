@@ -54,7 +54,7 @@ public class StockViewPage extends JFrame{
 	
 	/**
 	 * Create the application.
-	 * @param stocklist 
+	 * @param number
 	 * @param home 
 	 */
 	public StockViewPage(HomeScreen home, int number) {

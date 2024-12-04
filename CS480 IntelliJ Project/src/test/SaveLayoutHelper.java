@@ -7,8 +7,11 @@ public class SaveLayoutHelper {
     private String[] buttonSymbols = new String[10];
 
     public static void main(String[] args) {
-        SaveLayoutHelper saveLayoutHelper = new SaveLayoutHelper();
+        new SaveLayoutHelper().runTest();
+    }
 
+    private void runTest() {
+        SaveLayoutHelper saveLayoutHelper = new SaveLayoutHelper();
         saveLayoutHelper.addStockAtPosition(new Stock("IBM"), 0);
         saveLayoutHelper.addStockAtPosition(new Stock("THX"), 1);
         saveLayoutHelper.addStockAtPosition(new Stock("ABC"), 2);
@@ -22,7 +25,7 @@ public class SaveLayoutHelper {
     }
 
     public SaveLayoutHelper() {
-        this("layout.txt");
+        this(Constants.DEFAULT_FILE_PATH);
     }
 
     public SaveLayoutHelper(String filePath) {
@@ -41,12 +44,28 @@ public class SaveLayoutHelper {
     }
 
     public void addStockAtPosition(Stock stock, int position) {
+        if(HomeScreen.debug) System.out.println("Adding " + stock + " to layout file");
         buttonSymbols[position] = stock.getStocksymbol();
+        readStockPositions();
         writeStockPositions();
     }
 
     public Stock getStockAtPosition(int position) {
-        return new Stock(buttonSymbols[position]);
+        Stock returnStock = null;
+        if(buttonSymbols[position] != null) {
+            returnStock = new Stock(buttonSymbols[position]);
+        }
+        else {
+            returnStock = new Stock();
+        }
+
+        return returnStock;
+    }
+
+    public void removeStockAtPosition(int position) {
+        if(HomeScreen.debug) System.out.println("Removing " + buttonSymbols[position] + " from layout file");
+        buttonSymbols[position] = null;
+        writeStockPositions();
     }
 
     private void readStockPositions() {
