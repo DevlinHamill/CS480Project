@@ -1,6 +1,0 @@
-# Ignore everything
-*
-
-# Except for the src folder
-!"CS480Project\CS 480 Final Draft\src\test"
-!.gitignore
