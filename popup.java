@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.awt.Font;
 
-public class popup extends JFrame{
+public class Popup extends JFrame{
 	
 	
 	private static JTextField textField;
@@ -27,7 +27,7 @@ public class popup extends JFrame{
 	public static HomeScreen home;
 	public static int buttonnum;
 	public static boolean isadding;
-	public static popup window;
+	public static Popup window;
 	public static JLabel errorLabel;
 	//public static Stock[] stocklist = new Stock[10];
 	private JFrame frame;
@@ -41,7 +41,7 @@ public class popup extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					window = new popup();
+					window = new Popup();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,11 +53,11 @@ public class popup extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public popup() {
+	public Popup() {
 		initialize();
 	}
 	
-	public popup(HomeScreen home, int buttonnum, boolean isadding, String promptstr) {
+	public Popup(HomeScreen home, int buttonnum, boolean isadding, String promptstr) {
 		this.home = home;
 		this.buttonnum = buttonnum;
 		this.isadding = isadding;

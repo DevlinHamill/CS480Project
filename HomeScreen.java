@@ -335,7 +335,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 1, true, promptstr);
+				Popup addpop = new Popup(home, 1, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 
@@ -350,7 +350,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 2, true, promptstr);
+				Popup addpop = new Popup(home, 2, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -364,7 +364,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 3, true, promptstr);
+				Popup addpop = new Popup(home, 3, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -379,7 +379,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 4, true, promptstr);
+				Popup addpop = new Popup(home, 4, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -393,7 +393,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 5, true, promptstr);
+				Popup addpop = new Popup(home, 5, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -407,7 +407,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 6, true, promptstr);
+				Popup addpop = new Popup(home, 6, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -421,7 +421,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 7, true, promptstr);
+				Popup addpop = new Popup(home, 7, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -435,7 +435,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 8, true, promptstr);
+				Popup addpop = new Popup(home, 8, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -449,7 +449,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 9, true, promptstr);
+				Popup addpop = new Popup(home, 9, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -463,7 +463,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Type in the stock symbol you would like to add:";
-				popup addpop = new popup(home, 10, true, promptstr);
+				Popup addpop = new Popup(home, 10, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -663,7 +663,7 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 1, false, promptstr);
+				Popup addpop = new Popup(home, 1, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 
@@ -680,7 +680,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 2, false, promptstr);
+				Popup addpop = new Popup(home, 2, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -695,7 +695,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 3, false, promptstr);
+				Popup addpop = new Popup(home, 3, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -710,7 +710,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 4, false, promptstr);
+				Popup addpop = new Popup(home, 4, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -725,7 +725,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 5, false, promptstr);
+				Popup addpop = new Popup(home, 5, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -740,7 +740,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 6, false, promptstr);
+				Popup addpop = new Popup(home, 6, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -755,7 +755,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home,7, false, promptstr);
+				Popup addpop = new Popup(home,7, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -770,7 +770,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 8, false, promptstr);
+				Popup addpop = new Popup(home, 8, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -785,7 +785,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 9, false, promptstr);
+				Popup addpop = new Popup(home, 9, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}
@@ -800,7 +800,7 @@ public class HomeScreen {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String promptstr = "Please type in the new stock symbol:";
-				popup addpop = new popup(home, 10, false, promptstr);
+				Popup addpop = new Popup(home, 10, false, promptstr);
 				addpop.main(null);
 				refreshOnClick();
 			}

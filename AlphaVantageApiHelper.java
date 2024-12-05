@@ -8,6 +8,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -314,7 +315,7 @@ public class AlphaVantageApiHelper {
                     .getJSONArray("data")
                     .getJSONObject(0)
                     .getString("ask");
-
+            
             String Asksize = Historical
                     .getJSONArray("data")
                     .getJSONObject(0)
@@ -406,14 +407,14 @@ public class AlphaVantageApiHelper {
 
             //Beta (5y monthly)
             String beta = Overview.getString("Beta");
-
+            
             ViewPageData.put(Constants.BETA_5Y_MONTHLY, beta);
 
             //PE Ratio (TTM)
             String PE_Ratio = Overview.getString("PERatio");
 
             if (PE_Ratio.equals("None")) {
-                PE_Ratio = "0.0";
+                PE_Ratio = "0";
                 System.out.println(Overview.getString("Name") + " PE Ratio set from \"None\" to 0.0");
             }
 
@@ -551,7 +552,8 @@ public class AlphaVantageApiHelper {
                 count++;
             }
         } catch (Exception e) {
-            ViewPageData = getStockViewData(symbol);
+        	//e.printStackTrace();
+          ViewPageData = getStockViewData(symbol);
         }
 
          return ViewPageData;
