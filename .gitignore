@@ -1,2 +1,6 @@
+# Ignore everything
+*
 
-CS480 IntelliJ Project/layout.txt
+# Except for the src folder
+!src/
+!.gitignore

@@ -54,7 +54,7 @@ public class StockViewPage extends JFrame{
 	
 	/**
 	 * Create the application.
-	 * @param number
+	 * @param stocklist 
 	 * @param home 
 	 */
 	public StockViewPage(HomeScreen home, int number) {
@@ -70,7 +70,8 @@ public class StockViewPage extends JFrame{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 758, 480);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 972, 494);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -85,6 +86,7 @@ public class StockViewPage extends JFrame{
 				currentstock.StockName, StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
 		
 		JLabel TitleLabel = new JLabel("");
+		TitleLabel.setBounds(10, 10, 849, 30);
 		TitleLabel.setText(prompt);
 				
 		TitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 22));
@@ -126,60 +128,78 @@ public class StockViewPage extends JFrame{
 
         
 		ChartPanel panel_1 = new ChartPanel((chart));
+		panel_1.setBounds(10, 46, 938, 196);
 		
 		panel_1.setRangeZoomable(true);
 		panel_1.setDomainZoomable(true);
 		panel_1.setMouseZoomable(true);
 		
 		JLabel prevcloselabel = new JLabel("Previous Close: "+currentstock.Previous_Close);
+		prevcloselabel.setBounds(10, 248, 196, 33);
 		prevcloselabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel openlabel = new JLabel("Open: "+currentstock.Open);
+		openlabel.setBounds(10, 289, 196, 35);
 		openlabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel bidlabel = new JLabel("Bid: "+currentstock.Bid);
+		bidlabel.setBounds(10, 330, 196, 35);
 		bidlabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel asklabel = new JLabel("Ask:"+currentstock.Ask);
+		asklabel.setBounds(10, 371, 196, 35);
 		asklabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel dayRangeLabel = new JLabel("Day's Range: "+currentstock.DaysRange);
+		dayRangeLabel.setBounds(212, 248, 218, 33);
 		dayRangeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel MarketCapLabel = new JLabel("Market Cap (IntraDay): "+currentstock.MarketCap_intraday);
+		MarketCapLabel.setBounds(436, 248, 204, 35);
 		MarketCapLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		
 		JLabel EarningsDateLabel = new JLabel("Earnings Date: "+ currentstock.Earnings_Date);
+		EarningsDateLabel.setBounds(652, 248, 296, 35);
 		EarningsDateLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel weekRangeLabel = new JLabel("52 Week Range: "+currentstock.FiftyTwo_WeekRange);
+		weekRangeLabel.setBounds(212, 289, 202, 35);
 		weekRangeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel VolumeLabel = new JLabel("Volume: "+ currentstock.Volume);
+		VolumeLabel.setBounds(212, 330, 218, 35);
 		VolumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel AvgVolumeLabel = new JLabel("Avg. Volume: "+currentstock.AvgVolume);
+		AvgVolumeLabel.setBounds(212, 371, 218, 35);
 		AvgVolumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel BetaLabel = new JLabel("Beta (5Y Monthly): "+currentstock.Beta_5Y_Monthly);
+		BetaLabel.setBounds(436, 289, 196, 35);
 		BetaLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel PERationLabel = new JLabel("PE Ration (TTM): "+currentstock.PERatio_TTM);
+		PERationLabel.setBounds(436, 330, 210, 35);
 		PERationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel EPSTTMRatio = new JLabel("EPS (TTM): "+currentstock.EPS_TTM);
+		EPSTTMRatio.setBounds(436, 371, 210, 35);
 		EPSTTMRatio.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel ForwardDivYieldLabel = new JLabel("Forward Div & Yield: "+currentstock.Forward_Dividend_and_Yield);
+		ForwardDivYieldLabel.setBounds(652, 289, 296, 35);
 		ForwardDivYieldLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel ExDivDateLabel = new JLabel("Ex-Div Date: "+currentstock.Ex_Dividend_Date);
+		ExDivDateLabel.setBounds(652, 330, 296, 35);
 		ExDivDateLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JLabel TargetEstLabel = new JLabel("1y Target Est: "+currentstock.y_Target_Est);
+		TargetEstLabel.setBounds(652, 371, 296, 35);
 		TargetEstLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
 		JButton BackButton = new JButton("Close");
+		BackButton.setBounds(10, 424, 144, 21);
 		BackButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -188,6 +208,7 @@ public class StockViewPage extends JFrame{
 		});
 		
 		JButton IntraDayButton = new JButton("Intraday chart");
+		IntraDayButton.setBounds(565, 424, 122, 21);
 		IntraDayButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -231,6 +252,7 @@ public class StockViewPage extends JFrame{
 		});
 		
 		JButton DailyButton = new JButton("Daily Graph");
+		DailyButton.setBounds(695, 424, 124, 21);
 		DailyButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -273,6 +295,7 @@ public class StockViewPage extends JFrame{
 		});
 		
 		JButton MonthlyButton = new JButton("Monthly Graph");
+		MonthlyButton.setBounds(824, 424, 124, 21);
 		MonthlyButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -313,102 +336,7 @@ public class StockViewPage extends JFrame{
 		        panel_1.setChart(chart);
 			}
 		});
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
-						.addComponent(TitleLabel, GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(asklabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-								.addComponent(bidlabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-								.addComponent(openlabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-								.addComponent(prevcloselabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(VolumeLabel, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(PERationLabel, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(ExDivDateLabel, GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(dayRangeLabel, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(MarketCapLabel, GroupLayout.PREFERRED_SIZE, 180, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(EarningsDateLabel, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(weekRangeLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(BetaLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(ForwardDivYieldLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(74)
-											.addComponent(BackButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
-										.addComponent(AvgVolumeLabel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(EPSTTMRatio, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(TargetEstLabel, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(IntraDayButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(DailyButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(MonthlyButton, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-											.addGap(33)))))
-							.addGap(8)))
-					.addContainerGap())
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(TitleLabel, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-							.addComponent(prevcloselabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-							.addComponent(dayRangeLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
-						.addComponent(MarketCapLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(EarningsDateLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(openlabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(weekRangeLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(BetaLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(ForwardDivYieldLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(bidlabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(VolumeLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(PERationLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(ExDivDateLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(TargetEstLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(EPSTTMRatio, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(AvgVolumeLabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-						.addComponent(asklabel, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
-					.addGap(18)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(BackButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(IntraDayButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(DailyButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(MonthlyButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(12))
-		);
+		panel.setLayout(null);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -419,6 +347,27 @@ public class StockViewPage extends JFrame{
 				.addGap(0, 194, Short.MAX_VALUE)
 		);
 		panel_1.setLayout(gl_panel_1);
-		panel.setLayout(gl_panel);
+		panel.add(panel_1);
+		panel.add(TitleLabel);
+		panel.add(asklabel);
+		panel.add(bidlabel);
+		panel.add(openlabel);
+		panel.add(prevcloselabel);
+		panel.add(VolumeLabel);
+		panel.add(PERationLabel);
+		panel.add(ExDivDateLabel);
+		panel.add(dayRangeLabel);
+		panel.add(MarketCapLabel);
+		panel.add(EarningsDateLabel);
+		panel.add(weekRangeLabel);
+		panel.add(BetaLabel);
+		panel.add(ForwardDivYieldLabel);
+		panel.add(BackButton);
+		panel.add(AvgVolumeLabel);
+		panel.add(EPSTTMRatio);
+		panel.add(TargetEstLabel);
+		panel.add(IntraDayButton);
+		panel.add(DailyButton);
+		panel.add(MonthlyButton);
 	}
 }
