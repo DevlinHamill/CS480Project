@@ -22,12 +22,28 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+/**
+ * @author StockFullyOptomistic
+ * CS 480
+ */
 
 public class StockViewPage extends JFrame{
-
+	
+	/**
+	 * the current frame of the GUI
+	 */
 	private JFrame frame;
+	/**
+	 * the current view page instance
+	 */
 	public static StockViewPage window;
+	/**
+	 * current stock being viewed
+	 */
 	public static Stock currentstock;
+	/**
+	 * the button number
+	 */
 	private static int number;
 	
 	
@@ -47,19 +63,20 @@ public class StockViewPage extends JFrame{
 		});
 	}
 
-	
+	/**
+	 * intializes the GUI
+	 */
 	public StockViewPage() {
 		initialize();
 	}
 	
 	/**
 	 * Create the application.
-	 * @param stocklist 
-	 * @param home 
+	 * @param home the current home screen instance
+	 * @param number the button number being viewed
 	 */
 	public StockViewPage(HomeScreen home, int number) {
 		this.currentstock = home.stocklist[number];
-		
 		initialize();
 	}
 
@@ -73,24 +90,47 @@ public class StockViewPage extends JFrame{
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 972, 494);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		/**
+		 * creates the panel that will hold all buttons
+		 */
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		/**
+		 * the current stock symbol
+		 */
 		String StockSymbol = currentstock.Stocksymbol;
+		/**
+		 * the current price
+		 */
 		String Price = currentstock.Currentstockprice;
+		/**
+		 * the current change sense previous closed
+		 */
 		String Delta = currentstock.Changefrompreviousclose;
+		/**
+		 * the current percentage of the change from previous closed
+		 */
 		String DeltaPercentage = currentstock.ChangefrompreviousclosePrecentage;
 		
+		/**
+		 * prompt that will be displayed
+		 */
 		String prompt = String.format("<html><span style='color:black;'>%s (%s) %s </span>"+
 				"<span style='color:%s;'>(%s)(%s)</span></html>",
 				currentstock.StockName, StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
 		
+		/**
+		 * the title of the stock view page
+		 */
 		JLabel TitleLabel = new JLabel("");
 		TitleLabel.setBounds(10, 10, 849, 30);
 		TitleLabel.setText(prompt);
 				
 		TitleLabel.setFont(new Font("Times New Roman", Font.PLAIN, 22));
 		
+		/**
+		 * the data being put into the graph
+		 */
 		DefaultCategoryDataset data = new DefaultCategoryDataset();
         data.addValue(Double.parseDouble(currentstock.intraday_values[0]), "Stock Symbol", currentstock.intraday_dates[0]);
         data.addValue(Double.parseDouble(currentstock.intraday_values[1]), "Stock Symbol", currentstock.intraday_dates[1]);
@@ -98,7 +138,9 @@ public class StockViewPage extends JFrame{
         data.addValue(Double.parseDouble(currentstock.intraday_values[3]), "Stock Symbol", currentstock.intraday_dates[3]);
         data.addValue(Double.parseDouble(currentstock.intraday_values[4]), "Stock Symbol", currentstock.intraday_dates[4]);
        
-        
+        /**
+         * the chart that holds all graph info
+         */
         JFreeChart chart = ChartFactory.createLineChart(
                 "Stock data (Intraday)",  	//graph title
                 "Stock date",  	//x value title      
@@ -110,7 +152,9 @@ public class StockViewPage extends JFrame{
                 false
         );
 		
-    
+        /**
+         * helps set the max and min y values of the chart
+         */
         ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
         double[] yValues = new double[] {
                 Double.parseDouble(currentstock.intraday_values[0]),
@@ -120,13 +164,20 @@ public class StockViewPage extends JFrame{
                 Double.parseDouble(currentstock.intraday_values[4])
         };
 
-        
+        /**
+         * obtains the minimum y value
+         */
         double minY = Arrays.stream(yValues).min().getAsDouble();
+        /**
+         * obtains the max y value
+         */
         double maxY = Arrays.stream(yValues).max().getAsDouble();
 
         yAxis.setRange(minY, maxY);
 
-        
+        /**
+         * creates a chart panel to display the generated chart
+         */
 		ChartPanel panel_1 = new ChartPanel((chart));
 		panel_1.setBounds(10, 46, 938, 196);
 		
@@ -134,70 +185,121 @@ public class StockViewPage extends JFrame{
 		panel_1.setDomainZoomable(true);
 		panel_1.setMouseZoomable(true);
 		
+		/**
+		 * displays previous close data
+		 */
 		JLabel prevcloselabel = new JLabel("Previous Close: "+currentstock.Previous_Close);
 		prevcloselabel.setBounds(10, 248, 196, 33);
 		prevcloselabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the open data
+		 */
 		JLabel openlabel = new JLabel("Open: "+currentstock.Open);
 		openlabel.setBounds(10, 289, 196, 35);
 		openlabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the bid data
+		 */
 		JLabel bidlabel = new JLabel("Bid: "+currentstock.Bid);
 		bidlabel.setBounds(10, 330, 196, 35);
 		bidlabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the ask data
+		 */
 		JLabel asklabel = new JLabel("Ask:"+currentstock.Ask);
 		asklabel.setBounds(10, 371, 196, 35);
 		asklabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the days range data.
+		 */
 		JLabel dayRangeLabel = new JLabel("Day's Range: "+currentstock.DaysRange);
 		dayRangeLabel.setBounds(212, 248, 218, 33);
 		dayRangeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * Displays the market cap value
+		 */
 		JLabel MarketCapLabel = new JLabel("Market Cap (IntraDay): "+currentstock.MarketCap_intraday);
 		MarketCapLabel.setBounds(436, 248, 204, 35);
 		MarketCapLabel.setFont(new Font("Times New Roman", Font.PLAIN, 12));
 		
+		/**
+		 * displays the earnings date
+		 */
 		JLabel EarningsDateLabel = new JLabel("Earnings Date: "+ currentstock.Earnings_Date);
 		EarningsDateLabel.setBounds(652, 248, 296, 35);
 		EarningsDateLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the week range data
+		 */
 		JLabel weekRangeLabel = new JLabel("52 Week Range: "+currentstock.FiftyTwo_WeekRange);
 		weekRangeLabel.setBounds(212, 289, 202, 35);
 		weekRangeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the volume data
+		 */
 		JLabel VolumeLabel = new JLabel("Volume: "+ currentstock.Volume);
 		VolumeLabel.setBounds(212, 330, 218, 35);
 		VolumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the average volume data
+		 */
 		JLabel AvgVolumeLabel = new JLabel("Avg. Volume: "+currentstock.AvgVolume);
 		AvgVolumeLabel.setBounds(212, 371, 218, 35);
 		AvgVolumeLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the beta data
+		 */
 		JLabel BetaLabel = new JLabel("Beta (5Y Monthly): "+currentstock.Beta_5Y_Monthly);
 		BetaLabel.setBounds(436, 289, 196, 35);
 		BetaLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
-		JLabel PERationLabel = new JLabel("PE Ration (TTM): "+currentstock.PERatio_TTM);
-		PERationLabel.setBounds(436, 330, 210, 35);
-		PERationLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		/**
+		 * displays the PERatio data
+		 */
+		JLabel PERatioLabel = new JLabel("PE Ration (TTM): "+currentstock.PERatio_TTM);
+		PERatioLabel.setBounds(436, 330, 210, 35);
+		PERatioLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the EPS ratio
+		 */
 		JLabel EPSTTMRatio = new JLabel("EPS (TTM): "+currentstock.EPS_TTM);
 		EPSTTMRatio.setBounds(436, 371, 210, 35);
 		EPSTTMRatio.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the forward div and yield data
+		 */
 		JLabel ForwardDivYieldLabel = new JLabel("Forward Div & Yield: "+currentstock.Forward_Dividend_and_Yield);
 		ForwardDivYieldLabel.setBounds(652, 289, 296, 35);
 		ForwardDivYieldLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * Displays the ex div date data
+		 */
 		JLabel ExDivDateLabel = new JLabel("Ex-Div Date: "+currentstock.Ex_Dividend_Date);
 		ExDivDateLabel.setBounds(652, 330, 296, 35);
 		ExDivDateLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * displays the target est data
+		 */
 		JLabel TargetEstLabel = new JLabel("1y Target Est: "+currentstock.y_Target_Est);
 		TargetEstLabel.setBounds(652, 371, 296, 35);
 		TargetEstLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		
+		/**
+		 * allows the user to close the window
+		 */
 		JButton BackButton = new JButton("Close");
 		BackButton.setBounds(10, 424, 144, 21);
 		BackButton.addMouseListener(new MouseAdapter() {
@@ -207,6 +309,9 @@ public class StockViewPage extends JFrame{
 			}
 		});
 		
+		/**
+		 * will be used to display intraday chart data
+		 */
 		JButton IntraDayButton = new JButton("Intraday chart");
 		IntraDayButton.setBounds(565, 424, 122, 21);
 		IntraDayButton.addMouseListener(new MouseAdapter() {
@@ -219,7 +324,9 @@ public class StockViewPage extends JFrame{
 		        data.addValue(Double.parseDouble(currentstock.intraday_values[3]), "Stock Symbol", currentstock.intraday_dates[3]);
 		        data.addValue(Double.parseDouble(currentstock.intraday_values[4]), "Stock Symbol", currentstock.intraday_dates[4]);
 		       
-		    
+		        /**
+		         * creates a new chart with the intraday data
+		         */
 		        JFreeChart chart = ChartFactory.createLineChart(
 		                "Stock data (Intraday)",  	//graph title
 		                "Stock date",  	//x value title      
@@ -231,7 +338,13 @@ public class StockViewPage extends JFrame{
 		                false
 		        );
 		        
+		        /**
+		         * helps set the y range on the chart
+		         */
 		        ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
+		        /**
+		         * gets the y values
+		         */
 		        double[] yValues = new double[] {
 		                Double.parseDouble(currentstock.intraday_values[0]),
 		                Double.parseDouble(currentstock.intraday_values[1]),
@@ -240,8 +353,13 @@ public class StockViewPage extends JFrame{
 		                Double.parseDouble(currentstock.intraday_values[4])
 		        };
 
-		        
+		        /**
+		         * retrieves the min y value
+		         */
 		        double minY = Arrays.stream(yValues).min().getAsDouble();
+		        /**
+		         * retreives the max y value
+		         */
 		        double maxY = Arrays.stream(yValues).max().getAsDouble();
 
 		        yAxis.setRange(minY, maxY);
@@ -251,6 +369,9 @@ public class StockViewPage extends JFrame{
 			}
 		});
 		
+		/**
+		 * creates a daily button to view daily graph data
+		 */
 		JButton DailyButton = new JButton("Daily Graph");
 		DailyButton.setBounds(695, 424, 124, 21);
 		DailyButton.addMouseListener(new MouseAdapter() {
@@ -263,7 +384,9 @@ public class StockViewPage extends JFrame{
 		        data.addValue(Double.parseDouble(currentstock.daily_values[3]), "Stock Symbol", currentstock.daily_dates[3]);
 		        data.addValue(Double.parseDouble(currentstock.daily_values[4]), "Stock Symbol", currentstock.daily_dates[4]);
 		       
-		    
+		        /**
+		         * creates a new chart with the daily graph info
+		         */
 		        JFreeChart chart = ChartFactory.createLineChart(
 		                "Stock data (Daily)",  	//graph title
 		                "Stock date",  	//x value title      
@@ -275,7 +398,13 @@ public class StockViewPage extends JFrame{
 		                false
 		        );
 		        
+		        /**
+		         * helps retrieve the y range
+		         */
 		        ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
+		        /**
+		         * stores all data from the graph in a array
+		         */
 		        double[] yValues = new double[] {
 		                Double.parseDouble(currentstock.daily_values[0]),
 		                Double.parseDouble(currentstock.daily_values[1]),
@@ -284,8 +413,13 @@ public class StockViewPage extends JFrame{
 		                Double.parseDouble(currentstock.daily_values[4])
 		        };
 
-		        
+		        /**
+		         * retrieves the y min
+		         */
 		        double minY = Arrays.stream(yValues).min().getAsDouble();
+		        /**
+		         * retreives the y max
+		         */
 		        double maxY = Arrays.stream(yValues).max().getAsDouble();
 
 		        yAxis.setRange(minY, maxY);
@@ -294,6 +428,9 @@ public class StockViewPage extends JFrame{
 			}
 		});
 		
+		/**
+		 * Creates the monthly button to set the graph to monthly data
+		 */
 		JButton MonthlyButton = new JButton("Monthly Graph");
 		MonthlyButton.setBounds(824, 424, 124, 21);
 		MonthlyButton.addMouseListener(new MouseAdapter() {
@@ -306,7 +443,9 @@ public class StockViewPage extends JFrame{
 		        data.addValue(Double.parseDouble(currentstock.monthly_values[3]), "Stock Symbol", currentstock.monthly_dates[3]);
 		        data.addValue(Double.parseDouble(currentstock.monthly_values[4]), "Stock Symbol", currentstock.monthly_dates[4]);
 		       
-		    
+		        /**
+		         * creates the chart with the monthly data
+		         */
 		        JFreeChart chart = ChartFactory.createLineChart(
 		                "Stock data (Monthly)",  	//graph title
 		                "Stock date",  	//x value title      
@@ -317,8 +456,13 @@ public class StockViewPage extends JFrame{
 		                true,
 		                false
 		        );
-		        
+		        /**
+		         * creates the the range on the chart
+		         */
 		        ValueAxis yAxis = chart.getCategoryPlot().getRangeAxis();
+		        /**
+		         * saves the y values from the chart
+		         */
 		        double[] yValues = new double[] {
 		                Double.parseDouble(currentstock.monthly_values[0]),
 		                Double.parseDouble(currentstock.monthly_values[1]),
@@ -327,8 +471,13 @@ public class StockViewPage extends JFrame{
 		                Double.parseDouble(currentstock.monthly_values[4])
 		        };
 
-		        
+		        /**
+		         * retrieves the y min
+		         */
 		        double minY = Arrays.stream(yValues).min().getAsDouble();
+		        /**
+		         * retrieves the y max 
+		         */
 		        double maxY = Arrays.stream(yValues).max().getAsDouble();
 
 		        yAxis.setRange(minY, maxY);
@@ -337,6 +486,9 @@ public class StockViewPage extends JFrame{
 			}
 		});
 		panel.setLayout(null);
+		/**
+		 * unused group layout that was auto generated from window builder
+		 */
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -354,7 +506,7 @@ public class StockViewPage extends JFrame{
 		panel.add(openlabel);
 		panel.add(prevcloselabel);
 		panel.add(VolumeLabel);
-		panel.add(PERationLabel);
+		panel.add(PERatioLabel);
 		panel.add(ExDivDateLabel);
 		panel.add(dayRangeLabel);
 		panel.add(MarketCapLabel);

@@ -17,25 +17,67 @@ import java.util.HashMap;
 
 import javax.swing.SwingConstants;
 
+/**
+ * @author StockFullyOptomistic
+ * CS 480
+ */
+
 public class HomeScreen {
 
 	private JFrame frame;
+	/**
+	 * Creates an add button that will be used for adding functionality later on
+	 */
 	public static JButton addbutton1, addbutton2, addbutton3, addbutton4,addbutton5, addbutton6, addbutton7, addbutton8, addbutton9, addbutton10;
+	/**
+	 * Creates a stock view button that will be used to view more info on a stock later on. 
+	 */
 	public static JButton stockviewbutton1, stockviewbutton2, stockviewbutton3, stockviewbutton4, stockviewbutton5, stockviewbutton6, stockviewbutton7, stockviewbutton8, stockviewbutton9, stockviewbutton10;
+	/**
+	 * Creates edit buttons that will be used to change a stock symbol and data later on
+	 */
 	public static JButton editbutton1, editbutton2, editbutton3, editbutton4,editbutton5, editbutton6, editbutton7, editbutton8, editbutton9, editbutton10;
+	/**
+	 * Creates the remove button that will handle specific remove functionality
+	 */
 	public static JButton removebutton1, removebutton2, removebutton3, removebutton4, removebutton5, removebutton6, removebutton7, removebutton8, removebutton9, removebutton10;
-
+	/**
+	 * contains all stock view buttons on a single array
+	 */
 	public static JButton[] stockViewButtons = new JButton[10];
+	/**
+	 * contains all add buttons on a single array
+	 */
 	public static JButton[] addButtons = new JButton[10];
+	/**
+	 * Contains all edit buttons on an array
+	 */
 	public static JButton[] editButtons = new JButton[10];
+	/**
+	 * contains all remove buttons on an array to be refrenced
+	 */
 	public static JButton[] removeButtons = new JButton[10];
 
+	/**
+	 * contains the current homescreen being used
+	 */
 	public static HomeScreen home;
+	/**
+	 * stores all stocks based on the button number
+	 */
 	public Stock[] stocklist = new Stock[10];
+	/**
+	 * creates a savelayouthelper object that will be used to save and read from the txt file
+	 */
 	public SaveLayoutHelper saver = new SaveLayoutHelper();
-
+	/**
+	 * creates a local boolean characters that checks if the data is loading 
+	 */
 	private boolean hasLoaded = false;
-	public static final boolean debug = true;
+	/**
+	 * Helps with debuging
+	 */
+	public static final boolean debug = false;
 
 	/**
 	 * Launch the application.
@@ -61,7 +103,11 @@ public class HomeScreen {
 		initialize();
 		updateButtonsFromLayout();
 	}
-
+	
+	/**
+	 * removes the data from the stock list array based on a button number
+	 * @param number current button number being evaluated
+	 */
 	private void removeData(int number) {
 		number = number - 1;
 		stocklist[number].Currentstockprice = "";
@@ -126,6 +172,11 @@ public class HomeScreen {
 		saver.removeStockAtPosition(number);
 	}
 
+	/**
+	 * stores the home screen data based on the current button number
+	 * @param homePageData the hashmap containing all the current home screen data
+	 * @param number the button number being stored
+	 */
 	public void storeHomeScreenData(HashMap<String,String> homePageData, int number) {
 		number--;
 		stocklist[number].Currentstockprice = homePageData.get(Constants.CURRENT_VALUE);
@@ -133,7 +184,12 @@ public class HomeScreen {
 		stocklist[number].Changefrompreviousclose = homePageData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE);
 		stocklist[number].ChangefrompreviousclosePrecentage = homePageData.get(Constants.CHANGE_SINCE_PREVIOUS_CLOSE_PERCENTAGE);
 	}
-
+	
+	/**
+	 * stores specificaly the stockviewdata
+	 * @param stockViewData the hashmap that contains the stockviewdata
+	 * @param number the button number being evaluated
+	 */
 	public void storeStockViewData(HashMap<String,String> stockViewData, int number) {
 		number--;
 		stocklist[number].StockName = stockViewData.get(Constants.NAME);
@@ -192,7 +248,13 @@ public class HomeScreen {
 
 		saver.addStockAtPosition(stocklist[number], number);
 	}
-
+	
+	/**
+	 * stores both the homescreen data and stock view data
+	 * @param homepage the homepage data that will be stored
+	 * @param StockViewpage the stockview page data
+	 * @param number the current number being stored
+	 */
 	public void storeStockData(HashMap<String,String> homepage, HashMap<String, String> StockViewpage, int number) {
 		number = number - 1;
 		stocklist[number].Currentstockprice = homepage.get(Constants.CURRENT_VALUE);
@@ -256,7 +318,11 @@ public class HomeScreen {
 
 		saver.addStockAtPosition(stocklist[number], number);
 	}
-
+	
+	/**
+	 * updates the button based on the current button number
+	 * @param number the button number being updated
+	 */
 	private void updateButton(int number) {
 		if(number == 1) {
 			UpdateButtonText(stockviewbutton1, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
@@ -280,11 +346,14 @@ public class HomeScreen {
 			UpdateButtonText(stockviewbutton10, stocklist[number - 1].Stocksymbol, stocklist[number -1].Currentstockprice, stocklist[number - 1].Changefrompreviousclose, stocklist[number -1].ChangefrompreviousclosePrecentage);
 		}
 	}
-
+	
+	/**
+	 * refreshes the homescreen data upon clicking a button
+	 */
 	private void refreshOnClick() {
 		for(int i=0; i < 10; i++) {
 			if(!(stocklist[i].Stocksymbol == null)) {
-				System.out.println("Refreshing stock: "+stocklist[i].Stocksymbol);
+				//System.out.println("Refreshing stock: "+stocklist[i].Stocksymbol);
 				updateHomeScreenButton(i + 1);
 			}
 			else {
@@ -294,13 +363,28 @@ public class HomeScreen {
 
 		}
 	}
-
+	/**
+	 * retrieves a specific stock
+	 * @param number the current button number
+	 * @return the specific stock
+	 */
 	public Stock getStockData(int number) {
 		number = number - 1;
 		return stocklist[number];
 	}
 
+	/**
+	 * updates the text on a specific button
+	 * @param button the current button being updated
+	 * @param StockSymbol the stock symbol being used in the print statement
+	 * @param Price the price being printed in the stock symbol
+	 * @param Delta the change from the previous close being printed
+	 * @param DeltaPercentage the precentage of change sense previous closed being printed
+	 */
 	public void UpdateButtonText(JButton button, String StockSymbol, String Price, String Delta, String DeltaPercentage){
+		/**
+		 * The formated text that changes colors for specific strings depending on if the change is positive or negative.
+		 */
 		String prompt = String.format("<html><span style='color:black;'>%s %s </span>"+
 						"<span style='color:%s;'>(%s)(%s)</span></html>",
 				StockSymbol, Price, Double.parseDouble(Delta) < 0 ? "red" : "green", Delta, DeltaPercentage);
@@ -321,9 +405,17 @@ public class HomeScreen {
 		for(int i = 0; i < 10; i++) {
 			stocklist[i] = new Stock();
 		}
-
+		/**
+		 * contains all the buttons 1-5
+		 */
 		JPanel leftPanel = new JPanel();
+		/**
+		 * contains all the buttons 6-10
+		 */
 		JPanel rightPanel = new JPanel();
+		/**
+		 * contains the add image info for each add button
+		 */
 		Image addimage = new ImageIcon(this.getClass().getResource("/addimage_2.png")).getImage();
 
 		/*
@@ -334,7 +426,13 @@ public class HomeScreen {
 		addbutton1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * prompt being displayed on the pop up
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 1, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -349,7 +447,13 @@ public class HomeScreen {
 		addbutton2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the prompt being added
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 2, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -363,7 +467,13 @@ public class HomeScreen {
 		addbutton3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the prompt for the add pop up
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the add popup object
+				 */
 				Popup addpop = new Popup(home, 3, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -378,7 +488,13 @@ public class HomeScreen {
 		addbutton4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the add pop up prompt
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the add pop up object
+				 */
 				Popup addpop = new Popup(home, 4, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -392,7 +508,13 @@ public class HomeScreen {
 		addbutton5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the add prompt that will be displayed
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 5, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -406,7 +528,13 @@ public class HomeScreen {
 		addbutton6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the add prompt that will be used in the pop up
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 6, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -420,7 +548,13 @@ public class HomeScreen {
 		addbutton7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the add prompt that will display on the pop up window 
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 7, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -434,7 +568,13 @@ public class HomeScreen {
 		addbutton8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the add prompt that will display on the pop up window 
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 8, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -448,7 +588,13 @@ public class HomeScreen {
 		addbutton9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the add prompt that will display on the pop up window 
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 9, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -462,7 +608,13 @@ public class HomeScreen {
 		addbutton10.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the add prompt that will display on the pop up window 
+				 */
 				String promptstr = "Type in the stock symbol you would like to add:";
+				/**
+				 * creates the pop up object
+				 */
 				Popup addpop = new Popup(home, 10, true, promptstr);
 				addpop.main(null);
 				refreshOnClick();
@@ -474,6 +626,9 @@ public class HomeScreen {
 
 		/*
 		 * remove buttons
+		 */
+		/**
+		 * contains the image for the remove buttons
 		 */
 		Image removeimage = new ImageIcon(this.getClass().getResource("/garbageicon4.jpg")).getImage();
 
@@ -661,10 +816,15 @@ public class HomeScreen {
 		editbutton1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 1, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 1, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 
 			}
@@ -679,9 +839,15 @@ public class HomeScreen {
 		editbutton2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 2, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 2, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -694,9 +860,15 @@ public class HomeScreen {
 		editbutton3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 3, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 3, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -709,9 +881,15 @@ public class HomeScreen {
 		editbutton4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 4, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 4, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -724,9 +902,15 @@ public class HomeScreen {
 		editbutton5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 5, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 5, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -739,9 +923,15 @@ public class HomeScreen {
 		editbutton6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 6, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 6, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -754,9 +944,15 @@ public class HomeScreen {
 		editbutton7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home,7, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home,7, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -769,9 +965,15 @@ public class HomeScreen {
 		editbutton8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 8, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 8, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -784,9 +986,15 @@ public class HomeScreen {
 		editbutton9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 9, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 9, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
@@ -799,15 +1007,24 @@ public class HomeScreen {
 		editbutton10.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				/**
+				 * creates the edit prompt
+				 */
 				String promptstr = "Please type in the new stock symbol:";
-				Popup addpop = new Popup(home, 10, false, promptstr);
-				addpop.main(null);
+				/**
+				 * creates the edit popup window
+				 */
+				Popup editpop = new Popup(home, 10, false, promptstr);
+				editpop.main(null);
 				refreshOnClick();
 			}
 		});
 		editbutton10.setIcon(new ImageIcon(editimage));
 		editbutton10.setBackground(new Color(255, 255, 255));
 		editbutton10.setVisible(false);
+		/**
+		 * creates the grouplayout for the background
+		 */
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.LEADING)
@@ -823,6 +1040,10 @@ public class HomeScreen {
 						.addComponent(rightPanel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
 		);
 
+		/*
+		 * stock view buttons
+		 */
+		
 		stockviewbutton6 = new JButton("         New button");
 		stockviewbutton6.setHorizontalAlignment(SwingConstants.LEFT);
 		stockviewbutton6.setBounds(10, 10, 213, 89);
@@ -831,6 +1052,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(6);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 5);
 				viewpage.main(null);
 
@@ -845,6 +1069,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(7);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 6);
 				viewpage.main(null);
 			}
@@ -858,6 +1085,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(8);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 7);
 				viewpage.main(null);
 			}
@@ -871,6 +1101,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(9);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 8);
 				viewpage.main(null);
 			}
@@ -884,6 +1117,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(10);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 9);
 				viewpage.main(null);
 			}
@@ -911,9 +1147,7 @@ public class HomeScreen {
 		rightPanel.add(stockviewbutton9);
 		rightPanel.add(stockviewbutton10);
 
-		/*
-		 * stock view buttons
-		 */
+		
 		stockviewbutton1 = new JButton("         New button");
 		stockviewbutton1.setHorizontalAlignment(SwingConstants.LEFT);
 		stockviewbutton1.setBounds(10, 10, 225, 91);
@@ -922,6 +1156,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(1);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 0);
 				viewpage.main(null);
 			}
@@ -935,6 +1172,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(2);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 1);
 				viewpage.main(null);
 			}
@@ -948,6 +1188,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(3);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 2);
 				viewpage.main(null);
 			}
@@ -961,6 +1204,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(4);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 3);
 				viewpage.main(null);
 			}
@@ -974,6 +1220,9 @@ public class HomeScreen {
 			public void mouseClicked(MouseEvent e) {
 				updateStockViewData(5);
 				refreshOnClick();
+				/**
+				 * creates the stock view page object
+				 */
 				StockViewPage viewpage = new StockViewPage(home, 4);
 				viewpage.main(null);
 			}
@@ -1047,17 +1296,33 @@ public class HomeScreen {
 		removeButtons[8] = removebutton9;
 		removeButtons[9] = removebutton10;
 	}
-
+	
+	/**
+	 * updates the stock view data
+	 * @param stock section being updated
+	 */
 	public void updateStockViewData(int num) {
+		/**
+		 * retrieves the stockview hashmap from the alphavantageAPI helper
+		 */
 		HashMap<String, String> stockViewData = AlphaVantageApiHelper.getStockViewData(stocklist[num - 1].Stocksymbol);
 		storeStockViewData(stockViewData, num);
 	}
-
+	
+	/**
+	 * updates the home screen data by seting the stock symbol and calling another method
+	 * @param num button number
+	 * @param symbol new stock symbol
+	 */
 	public void updateHomeScreenButton(int num, String symbol) {
 		stocklist[num - 1].setStocksymbol(symbol);
 		updateHomeScreenButton(num);
 	}
-
+	
+	/**
+	 * updates the homescreen data
+	 * @param num button number being updated
+	 */
 	public void updateHomeScreenButton(int num) {
 		if(debug) System.out.println("Updating button " + num + " with symbol " + stocklist[num - 1].getStocksymbol());
 		HashMap<String, String> homeScreenData = AlphaVantageApiHelper.getHomeScreenData(stocklist[num - 1].getStocksymbol());
@@ -1065,11 +1330,18 @@ public class HomeScreen {
 		updateButton(num);
 	}
 
+	
+	/**
+	 * updates the buttons visability and data after reading the text file
+	 */
 	public void updateButtonsFromLayout() {
 		if(debug) System.out.println("Running HomeScreen.updateButtonFromLayout");
 		if(!hasLoaded) {
 			hasLoaded = true;
 			for(int i = 0; i < stockViewButtons.length; i++) {
+				/**
+				 * the current stock being read
+				 */
 				Stock temp = saver.getStockAtPosition(i);
 
 				if(temp.getStocksymbol() != null) {
