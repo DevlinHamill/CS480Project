@@ -1,8 +1,0 @@
-0 IBM
-1 S
-2 V
-4 APLE
-5 NDAQ
-6 J
-7 B
-9 D
