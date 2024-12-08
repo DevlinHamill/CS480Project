@@ -1,5 +1,6 @@
 package Utils;
 
+import Resource.Global;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -7,22 +8,56 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class AvApiHelper {
     private static final String apiKey = "H7WKQIGFRDPFG4A5";
     private static final String baseUrl = "https://www.alphavantage.co/query?";
+    private static Logger logger = Global.logger;
 
-    public String[] getHomeScreenData() {
+    public static class HomeScreenData {
+        private String stockSymbol, currentValue, changeSinceClose, changeSinceClosePercent;
+
+        public HomeScreenData(String stockSymbol, String currentValue, String changeSinceClose, String changeSinceClosePercent) {
+            this.stockSymbol = stockSymbol;
+            this.currentValue = currentValue;
+            this.changeSinceClose = changeSinceClose;
+            this.changeSinceClosePercent = changeSinceClosePercent;
+        }
+
+        public String getStockSymbol() {
+            return stockSymbol;
+        }
+
+        public String getCurrentValue() {
+            return currentValue;
+        }
+
+        public String getChangeSinceClose() {
+            return changeSinceClose;
+        }
+
+        public String getChangeSinceClosePercent() {
+            return changeSinceClosePercent;
+        }
+    }
+
+    public AvApiHelper() {
 
     }
 
-    private static JSONObject getJson(String query) {
+    public HomeScreenData getHomeScreenData(String symbol) {
+        logger.info(String.format("Running %s.getHomeScreenData()", this.getClass().getName()));
+    }
+
+    private JSONObject getJson(String query) {
+        logger.info(String.format("Running %s.getHomeScreenData(%s)", this.getClass().getName(), query));
         JSONObject jsonResponse = null;
 
         try {
             // Create a URL object
-            URI uri = new URI(query);
-            URL url = uri.toURL();
+            URL url = new URI(query).toURL();
 
             // Open a connection
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -47,19 +82,15 @@ public class AvApiHelper {
                 jsonResponse = new JSONObject(response.toString());
             }
             else {
-                System.out.println("GET request failed. Response Code: " + responseCode);
+                logger.warning("GET request failed. Response Code: " + responseCode);
             }
 
             connection.disconnect(); // Close the connection
 
         } catch (Exception e) {
-            System.out.println("Error in getJSON: " + e.getMessage());
+            logger.warning("Error in getJSON: " + e.getMessage());
         }
 
         return jsonResponse;
-    }
-
-    private static JSONObject getRealTimeBulkJson() {
-
     }
 }

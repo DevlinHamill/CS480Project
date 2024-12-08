@@ -25,14 +25,12 @@ public class HomeScreenController {
     private JButton[] removeButtons = new JButton[NUM_BUTTONS];
     private JButton[] editButtons = new JButton[NUM_BUTTONS];
     private JButton[] stockButtons = new JButton[NUM_BUTTONS];
-    private GetSymbolPopUpFactory popUpFactory;
+    private GetSymbolPopUpController popUpFactory;
 
     private Logger logger = Global.logger;
     private AvApiHelper api = new AvApiHelper();
 
-    ImageIcon addIcon = null;
-    ImageIcon removeIcon = null;
-    ImageIcon editIcon = null;
+
 
     private Stock[] stocks = new Stock[NUM_BUTTONS];
 
@@ -43,7 +41,7 @@ public class HomeScreenController {
     private void initialize() {
         logger.info(String.format("Running %s.initialize()", this.getClass().getName()));
 
-        popUpFactory = new GetSymbolPopUpFactory();
+        popUpFactory = new GetSymbolPopUpController();
 
         frame = new JFrame("StockViewer: Reloaded");
         frame.setResizable(false);
@@ -52,6 +50,10 @@ public class HomeScreenController {
 
         JPanel leftPanel = new JPanel();
         JPanel rightPanel = new JPanel();
+
+        ImageIcon addIcon = null;
+        ImageIcon removeIcon = null;
+        ImageIcon editIcon = null;
 
         try {
             // Open the ZIP file (assuming it's in the resource folder)
@@ -65,8 +67,6 @@ public class HomeScreenController {
             // Create a ZipInputStream
             ZipInputStream zipInputStream = new ZipInputStream(zipStream);
             ZipEntry entry;
-
-
 
             // Iterate through ZIP entries
             while ((entry = zipInputStream.getNextEntry()) != null) {
@@ -82,7 +82,6 @@ public class HomeScreenController {
                         break;
                 }
             }
-
             zipInputStream.close();  // Close the ZIP stream
 
             // If the images were loaded successfully, use them to set button icons
@@ -93,11 +92,11 @@ public class HomeScreenController {
                     editButtons[i] = new JButton(editIcon);
                 }
             } else {
-                Global.logger.warning("One or more images could not be loaded.");
+                logger.warning("One or more images could not be loaded.");
             }
 
         } catch (IOException e) {
-            Global.logger.log(Level.SEVERE, "Error loading images from ZIP file", e);
+            logger.log(Level.SEVERE, "Error loading images from ZIP file", e);
         }
 
         // Now, add components to the frame or panels as needed, and make the frame visible
@@ -117,8 +116,7 @@ public class HomeScreenController {
             addButtons[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    stocks[finalI] = new Stock(popUpFactory.getAddPopUp());
-                    updateButtons();
+                    addStock(finalI);
                 }
             });
 
@@ -127,8 +125,7 @@ public class HomeScreenController {
             editButtons[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    stocks[finalI] = new Stock(popUpFactory.getEditPopUp());
-                    updateButtons();
+                    editStock(finalI);
                 }
             });
 
@@ -142,35 +139,78 @@ public class HomeScreenController {
             });
         }
 
-
+        //TODO more to add
 
         frame.setVisible(true);
     }
 
-    //TODO: add invoke later to each ui update call
+    private void addStock(int buttonNumber) {
+        logger.info(String.format("Adding %s at button number %d", stocks[buttonNumber].getStockSymbol(), buttonNumber));
+        stocks[buttonNumber] = new Stock(popUpFactory.getAddPopUp());
+        showStockButtons(buttonNumber);
+        updateButtons();
+    }
+
+    private void editStock(int buttonNumber) {
+        logger.info(String.format("Editing %s at button number %d", stocks[buttonNumber].getStockSymbol(), buttonNumber));
+        stocks[buttonNumber] = new Stock(popUpFactory.getEditPopUp());
+        showStockButtons(buttonNumber);
+        updateButtons();
+    }
+
     private void removeStock(int buttonNumber) {
         logger.info(String.format("Removing %s at button number %d", stocks[buttonNumber].getStockSymbol(), buttonNumber));
-        stockButtons[buttonNumber].setVisible(false);
-        addButtons[buttonNumber].setVisible(true);
-        editButtons[buttonNumber].setVisible(false);
-        removeButtons[buttonNumber].setVisible(false);
         stocks[buttonNumber] = null;
+        showNewButton(buttonNumber);
 
     }
+
+    public void showStockButtons(int buttonNumber) {
+        logger.info(String.format("Showing stockButton, editButton and removeButton for position #%d", buttonNumber));
+        SwingUtilities.invokeLater(() -> {
+            addButtons[buttonNumber].setVisible(false);
+            editButtons[buttonNumber].setVisible(true);
+            removeButtons[buttonNumber].setVisible(true);
+            stockButtons[buttonNumber].setVisible(true);
+        });
+    }
+
+    public void showNewButton(int buttonNumber) {
+        logger.info(String.format("Showing newButton for position #%d", buttonNumber));
+        SwingUtilities.invokeLater(() -> {
+            stockButtons[buttonNumber].setVisible(false);
+            addButtons[buttonNumber].setVisible(true);
+            editButtons[buttonNumber].setVisible(false);
+            removeButtons[buttonNumber].setVisible(false);
+            stocks[buttonNumber] = null;
+
+        });
+    }
+
     //TODO: add invoke later to each ui update call
     private void updateButtons() {
-        String[] newData = api.getHomeScreenData();
+        logger.info("Updating buttons!");
 
        for(int i = 0; i < NUM_BUTTONS; i++) {
            logger.info("Updating button " + i + " with symbol " + stocks[i].getStockSymbol());
-           addButtons[i].setVisible(false);
-           editButtons[i].setVisible(true);
-           removeButtons[i].setVisible(true);
-           stockButtons[i].setVisible(true);
-
-
-
+            updateButton(i);
        }
+    }
+
+    private void updateButton(int buttonNumber) {
+        if(stocks[buttonNumber] != null) {
+            AvApiHelper.HomeScreenData newData = api.getHomeScreenData(stocks[buttonNumber].getStockSymbol());
+
+            stockButtons[buttonNumber].setText(
+                    String.format(
+                            "<html><span style='color:black;'>%s %s </span><span style='color:%s;'>(%s)(%s)</span></html>",
+                    newData.getStockSymbol(),
+                    newData.getCurrentValue(),
+                    Double.parseDouble(newData.getChangeSinceClose()) < 0 ? "red" : "green",
+                    newData.getChangeSinceClose(),
+                    newData.getChangeSinceClose())
+                    );
+        }
     }
 
 }

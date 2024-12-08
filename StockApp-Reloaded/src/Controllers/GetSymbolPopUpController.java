@@ -1,6 +1,6 @@
 package Controllers;
 
-public class GetSymbolPopUpFactory {
+public class GetSymbolPopUpController {
     public String getAddPopUp() {
         return "";
     }
